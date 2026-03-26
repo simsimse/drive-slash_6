@@ -262,7 +262,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &140082289
 BoxCollider2D:
@@ -485,6 +485,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DaggerManager
   daggerPrefab: {fileID: 4198378814517393398, guid: 80d71281066d77e4ab5c60a2f1251a29, type: 3}
+  maxCharges: 3
+  rechargeCooldown: 3
 --- !u!114 &140082299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98494c836d6d6649acde1d04a2fe7b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dash
-  pullForce: 25
+  dashSpeed: 100
   boostMultiplier: 2
   boostDistance: 3
   dashDamage: 5
