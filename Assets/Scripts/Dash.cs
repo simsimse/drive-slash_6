@@ -1,22 +1,19 @@
 using UnityEngine;
 
-/// <summary>
-/// Shift 키로 배치된 대거 위치로 플레이어를 끌어당기는 인력 대시 전담 클래스.
-/// 대거 투척은 DaggerThrower, 모드 전환은 ForceMode가 담당합니다.
-/// </summary>
 [RequireComponent(typeof(DaggerThrower))]
 public class Dash : MonoBehaviour
 {
     [Header("대시 설정")]
-    public float pullForce      = 25f;
-    public float boostMultiplier = 2f;
+    public float dashSpeed       = 20f;   // 돌진 속도 (AddForce 대신 직접 속도 제어)
+    public float boostMultiplier = 1.5f;
     public float boostDistance   = 3f;
     public int   dashDamage      = 5;
 
     public bool IsDashing { get; private set; } = false;
 
-    private Rigidbody2D  _rb;
+    private Rigidbody2D   _rb;
     private DaggerThrower _thrower;
+    private Vector2       _dashDir;   // 돌진 방향 고정용
 
     void Awake()
     {
@@ -29,23 +26,51 @@ public class Dash : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
             && _thrower.CurrentDagger != null && !IsDashing)
         {
-            PullToDagger();
+            StartDash();
         }
     }
 
-    private void PullToDagger()
+    void FixedUpdate()
     {
-        Vector2 dir  = (_thrower.CurrentDagger.transform.position - transform.position).normalized;
-        float   dist = Vector2.Distance(transform.position, _thrower.CurrentDagger.transform.position);
-        float   force = pullForce * (dist < boostDistance ? boostMultiplier : 1f);
+        if (!IsDashing) return;
+        
+        if (_thrower.CurrentDagger == null)
+        {
+            StopDash();
+            return;
+        }
 
-        _rb.AddForce(dir * force, ForceMode2D.Impulse);
+
+        // 중력·외부 힘 무시하고 고정 방향/속도로 직접 이동
+        float   dist  = Vector2.Distance(transform.position, _thrower.CurrentDagger.transform.position);
+        float   speed = dashSpeed * (dist < boostDistance ? boostMultiplier : 1f);
+        _rb.linearVelocity = _dashDir * speed;
+    }
+
+    private void StartDash()
+    {
+        _dashDir = (_thrower.CurrentDagger.transform.position - transform.position).normalized;
+
+        // 기존 속도·힘 초기화 → 직선 보장
+        _rb.linearVelocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+
+        // 돌진 중 중력 끄기
+        _rb.gravityScale = 0f;
+
         IsDashing = true;
+    }
+
+    private void StopDash()
+    {
+        IsDashing = false;
+        _rb.gravityScale  = 1f;          // 중력 복구 (Inspector 기본값에 맞게 조정)
+        _rb.linearVelocity = Vector2.zero;
     }
 
     void OnCollisionEnter2D(Collision2D _)
     {
-        IsDashing = false;
+        StopDash();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -58,7 +83,8 @@ public class Dash : MonoBehaviour
 
         if (other.CompareTag("Dagger"))
         {
-            _thrower.ConsumeDagger(); // 대거 소비를 DaggerThrower에 위임
+            _thrower.ConsumeDagger(other.gameObject);
+            StopDash();
         }
     }
 }
