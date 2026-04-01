@@ -3,6 +3,12 @@ using UnityEngine;
 /// <summary>
 /// 플레이어 기본 이동. 대시 중에는 이동을 멈춥니다.
 /// </summary>
+/// <remarks>
+/// [의존]
+/// - Dash.cs : IsDashing 이 true이면 FixedUpdate에서 velocity 적용 중단
+/// [같은 GameObject에 필요한 컴포넌트]
+/// - Dash, Rigidbody2D
+/// </remarks>
 public class PlayerMovement : MonoBehaviour
 {
     [Header("이동 설정")]

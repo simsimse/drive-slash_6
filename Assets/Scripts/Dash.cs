@@ -1,5 +1,20 @@
 using UnityEngine;
 
+/// <summary>
+/// Shift 키로 가장 최근 배치된 단검 방향으로 돌진합니다.
+/// 대시 중 Boss 태그에 닿으면 데미지, Dagger 태그에 닿으면 단검 소비 후 정지.
+/// </summary>
+/// <remarks>
+/// [의존]
+/// - DaggerThrower.cs : CurrentDagger(목표 위치), ConsumeDagger()(단검 소비)
+/// - Boss.cs          : TakeDamage() 호출 (OnTriggerEnter2D)
+/// [참조하는 곳]
+/// - PlayerMovement.cs : IsDashing 으로 이동 억제
+/// - MagnetForce.cs    : IsDashing 으로 자력 억제
+/// - Repeller.cs       : IsDashing 으로 차지 억제
+/// [같은 GameObject에 필요한 컴포넌트]
+/// - DaggerThrower, Rigidbody2D
+/// </remarks>
 [RequireComponent(typeof(DaggerThrower))]
 public class Dash : MonoBehaviour
 {

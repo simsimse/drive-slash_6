@@ -4,6 +4,14 @@ using UnityEngine;
 /// 마우스 좌클릭 차지 후 릴리즈로 척력을 발동하는 클래스.
 /// Metal 태그 오브젝트에 닿으면 반대 방향으로 점프합니다.
 /// </summary>
+/// <remarks>
+/// [의존]
+/// - Dash.cs          : IsDashing 중에는 차지 비활성화
+/// - arrow (Transform): ArrowVisualizer 와 동일한 arrow Transform 공유 (Inspector 연결 필요)
+/// [같은 GameObject에 필요한 컴포넌트]
+/// - Dash, Rigidbody2D
+/// [주의] 좌클릭(MouseButton 0)을 DaggerThrower.cs와 공유 → 동시 동작 충돌 가능
+/// </remarks>
 [RequireComponent(typeof(Dash))]
 public class Repeller : MonoBehaviour
 {

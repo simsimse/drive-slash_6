@@ -6,6 +6,12 @@ using UnityEngine;
 /// 대거의 생성/등록/해제를 전담합니다.
 /// 최대 3개 충전, 단검 회수(RemoveDagger) 시 쿨타임 후 충전 회복.
 /// </summary>
+/// <remarks>
+/// [참조하는 곳]
+/// - DaggerThrower.cs : SpawnDagger(), RemoveDagger(), HasCharge 사용
+/// [같은 GameObject에 필요한 컴포넌트]
+/// - DaggerThrower (RequireComponent로 강제)
+/// </remarks>
 public class DaggerManager : MonoBehaviour
 {
     [Header("Prefab")]
