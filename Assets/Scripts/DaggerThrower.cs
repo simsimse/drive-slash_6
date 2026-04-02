@@ -31,7 +31,7 @@ public class DaggerThrower : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && _manager.HasCharge)
+        if (Input.GetMouseButtonDown(1) && _manager.HasCharge)
             ThrowDagger();
     }
 

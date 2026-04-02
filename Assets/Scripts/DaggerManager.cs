@@ -27,9 +27,11 @@ public class DaggerManager : MonoBehaviour
     private readonly Queue<Coroutine> _rechargeQueue = new Queue<Coroutine>();
 
     // ── 외부 읽기 전용 프로퍼티 ───────────────────────────────
-    public int  CurrentCharges => _currentCharges;
-    public int  MaxCharges     => maxCharges;
-    public bool HasCharge      => _currentCharges > 0;
+    public int  CurrentCharges   => _currentCharges;
+    public int  MaxCharges       => maxCharges;
+    public bool HasCharge        => _currentCharges > 0;
+    /// <summary>현재 맵에 배치된 플레이어 핀 수 (RandomPinSpawner의 합산용)</summary>
+    public int  ActiveDaggerCount => _daggers.Count;
 
     /// <summary>충전 수가 바뀔 때 호출됩니다. (현재 충전, 최대 충전)</summary>
     public event System.Action<int, int> OnChargeChanged;
