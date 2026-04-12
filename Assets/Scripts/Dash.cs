@@ -1,13 +1,13 @@
 using UnityEngine;
 
 /// <summary>
-/// 좌클릭으로 가장 최근 배치된 단검 방향으로 돌진합니다.
+/// 좌클릭으로 마우스에 가장 가까운 핀 방향으로 돌진합니다.
 /// 대시 중 Boss 태그에 닿으면 데미지, Dagger 태그에 닿으면 단검 소비 후 정지.
 /// 목표 핀의 PinData를 읽어 데미지 배율·속도 배율·무적 여부를 적용합니다.
 /// </summary>
 /// <remarks>
 /// [의존]
-/// - DaggerThrower.cs : CurrentDagger(목표 위치), ConsumeDagger()(단검 소비)
+/// - DaggerThrower.cs : ConsumeDagger()(단검 소비)
 /// - Boss.cs          : TakeDamage() 호출 (OnTriggerEnter2D)
 /// - PinData.cs       : 핀 효과(데미지 배율, 속도 배율, 무적 여부)
 /// [참조하는 곳]
@@ -33,6 +33,7 @@ public class Dash : MonoBehaviour
     private Rigidbody2D   _rb;
     private DaggerThrower _thrower;
     private Vector2       _dashDir;   // 돌진 방향 고정용
+    private GameObject    _targetDagger; // 현재 대시 목표 핀
 
     // 현재 슬래시에 적용 중인 PinData 효과
     private float _activeDamageMultiplier = 1f;
@@ -46,10 +47,11 @@ public class Dash : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)
-            && _thrower.CurrentDagger != null && !IsDashing)
+        if (Input.GetMouseButtonDown(0) && !IsDashing)
         {
-            StartDash();
+            _targetDagger = FindNearestPinToMouse();
+            if (_targetDagger != null)
+                StartDash();
         }
     }
 
@@ -57,14 +59,14 @@ public class Dash : MonoBehaviour
     {
         if (!IsDashing) return;
 
-        if (_thrower.CurrentDagger == null)
+        if (_targetDagger == null)
         {
             StopDash();
             return;
         }
 
         // 중력·외부 힘 무시하고 고정 방향/속도로 직접 이동
-        float dist  = Vector2.Distance(transform.position, _thrower.CurrentDagger.transform.position);
+        float dist  = Vector2.Distance(transform.position, _targetDagger.transform.position);
         float speed = dashSpeed * _activeSpeedMultiplier * (dist < boostDistance ? boostMultiplier : 1f);
         _rb.linearVelocity = _dashDir * speed;
     }
@@ -72,7 +74,7 @@ public class Dash : MonoBehaviour
     private void StartDash()
     {
         // 목표 핀의 PinData 읽기
-        PinData pinData = _thrower.CurrentDagger.GetComponent<PinData>();
+        PinData pinData = _targetDagger.GetComponent<PinData>();
         if (pinData != null)
         {
             _activeDamageMultiplier = pinData.damageMultiplier;
@@ -86,7 +88,7 @@ public class Dash : MonoBehaviour
             IsInvincible            = false;
         }
 
-        _dashDir = (_thrower.CurrentDagger.transform.position - transform.position).normalized;
+        _dashDir = (_targetDagger.transform.position - transform.position).normalized;
 
         // 기존 속도·힘 초기화 → 직선 보장
         _rb.linearVelocity  = Vector2.zero;
@@ -102,12 +104,34 @@ public class Dash : MonoBehaviour
     {
         IsDashing    = false;
         IsInvincible = false;
+        _targetDagger = null;
 
         _activeDamageMultiplier = 1f;
         _activeSpeedMultiplier  = 1f;
 
         _rb.gravityScale   = 1f;          // 중력 복구 (Inspector 기본값에 맞게 조정)
         _rb.linearVelocity = Vector2.zero;
+    }
+
+    private GameObject FindNearestPinToMouse()
+    {
+        Vector2 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        GameObject[] daggers = GameObject.FindGameObjectsWithTag("Dagger");
+
+        GameObject nearest = null;
+        float minDist = Mathf.Infinity;
+
+        foreach (GameObject d in daggers)
+        {
+            float dist = Vector2.Distance(mouseWorld, d.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearest = d;
+            }
+        }
+
+        return nearest;
     }
 
     void OnCollisionEnter2D(Collision2D _)

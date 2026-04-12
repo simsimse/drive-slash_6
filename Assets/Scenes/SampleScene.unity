@@ -455,10 +455,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Repeller
   repelPower: 100
-  maxCharge: 2
-  chargeSpeed: 1.5
   metalJumpPower: 20
   rayCastRange: 10
+  invincibleDuration: 0.5
+  cooldown: 5
   arrow: {fileID: 791816}
 --- !u!114 &140082297
 MonoBehaviour:
@@ -499,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98494c836d6d6649acde1d04a2fe7b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dash
-  dashSpeed: 100
+  dashSpeed: 70
   boostMultiplier: 2
   boostDistance: 3
   dashDamage: 5
