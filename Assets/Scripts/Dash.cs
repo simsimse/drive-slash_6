@@ -144,9 +144,9 @@ public class Dash : MonoBehaviour
     {
         if (IsDashing && other.CompareTag("Boss"))
         {
-            int dmg = Mathf.RoundToInt(dashDamage * _activeDamageMultiplier);
-            other.GetComponent<Boss>()?.TakeDamage(dmg);
-            Debug.Log($"보스에게 {dmg} 데미지! (배율 {_activeDamageMultiplier}x)");
+            Boss boss = other.GetComponentInParent<Boss>();
+            boss?.TakeDamage(dashDamage);
+            Debug.Log($"보스에게 {dashDamage} 데미지!");
         }
 
         if (other.CompareTag("Dagger"))
