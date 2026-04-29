@@ -1,25 +1,36 @@
 using UnityEngine;
 
 /// <summary>
-/// 마우스 좌클릭 차지 후 릴리즈로 척력을 발동하는 클래스.
-/// Metal 태그 오브젝트에 닿으면 반대 방향으로 점프합니다.
+/// Shift 키로 Repersion 모드(0.5초 무적 튕겨내기)를 발동합니다.
+/// 발동 후 5초 쿨타임.
 /// </summary>
+/// <remarks>
+/// [의존]
+/// - Dash.cs          : IsDashing 중에는 발동 비활성화
+/// - arrow (Transform): ArrowVisualizer 와 동일한 arrow Transform 공유 (Inspector 연결 필요)
+/// [같은 GameObject에 필요한 컴포넌트]
+/// - Dash, Rigidbody2D
+/// </remarks>
 [RequireComponent(typeof(Dash))]
 public class Repeller : MonoBehaviour
 {
     [Header("척력 설정")]
     public float repelPower    = 15f;
-    public float maxCharge     = 2f;
-    public float chargeSpeed   = 1.5f;
     public float metalJumpPower = 20f;
     public float rayCastRange   = 8f;
 
+    [Header("Repersion 설정")]
+    public float invincibleDuration = 0.5f;  // 무적 지속 시간
+    public float cooldown           = 5f;    // 쿨타임
+
     public Transform arrow; // ArrowVisualizer와 같은 arrow Transform 공유
+
+    public bool IsInvincible { get; private set; } = false;
 
     private Rigidbody2D _rb;
     private Dash        _dash;
-    private float       _charge    = 0f;
-    private bool        _charging  = false;
+    private float       _invincibleTimer = 0f;
+    private float       _cooldownTimer   = 0f;
 
     void Awake()
     {
@@ -31,25 +42,34 @@ public class Repeller : MonoBehaviour
     {
         if (_dash.IsDashing) return;
 
-        HandleChargeInput();
+        // 쿨타임 카운트다운
+        if (_cooldownTimer > 0f)
+            _cooldownTimer -= Time.deltaTime;
+
+        // 무적 시간 카운트다운
+        if (IsInvincible)
+        {
+            _invincibleTimer -= Time.deltaTime;
+            if (_invincibleTimer <= 0f)
+                IsInvincible = false;
+        }
+
+        // Shift 입력 → Repersion 발동
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+            && _cooldownTimer <= 0f)
+        {
+            ActivateRepersion();
+        }
     }
 
-    private void HandleChargeInput()
+    private void ActivateRepersion()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            _charging = true;
-            _charge   = 0f;
-        }
+        // 무적 판정 시작
+        IsInvincible     = true;
+        _invincibleTimer = invincibleDuration;
+        _cooldownTimer   = cooldown;
 
-        if (_charging)
-            _charge = Mathf.Clamp(_charge + Time.deltaTime * chargeSpeed, 0, maxCharge);
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            FireRepel();
-            _charging = false;
-        }
+        FireRepel();
     }
 
     private void FireRepel()
@@ -61,6 +81,6 @@ public class Repeller : MonoBehaviour
         if (hit && hit.collider.CompareTag("Metal"))
             _rb.AddForce(-dir * metalJumpPower, ForceMode2D.Impulse);
         else
-            _rb.AddForce(-dir * (repelPower * _charge), ForceMode2D.Impulse);
+            _rb.AddForce(-dir * repelPower, ForceMode2D.Impulse);
     }
 }

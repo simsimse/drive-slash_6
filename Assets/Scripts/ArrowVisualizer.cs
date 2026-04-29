@@ -4,6 +4,15 @@ using UnityEngine;
 /// 마우스 방향으로 화살표를 회전시키고,
 /// 인력/척력 모드에 따라 색상을 바꾸는 시각적 피드백 전담 클래스.
 /// </summary>
+/// <remarks>
+/// [의존]
+/// - ForceMode.cs : IsPullMode 로 화살표 색상 결정
+/// [참조하는 곳]
+/// - MagnetForce.cs : arrow Transform 공유 (Inspector에서 동일 오브젝트 연결)
+/// - Repeller.cs    : arrow Transform 공유 (Inspector에서 동일 오브젝트 연결)
+/// [같은 GameObject에 필요한 컴포넌트]
+/// - ForceMode
+/// </remarks>
 [RequireComponent(typeof(ForceMode))]
 public class ArrowVisualizer : MonoBehaviour
 {

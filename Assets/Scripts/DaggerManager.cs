@@ -6,6 +6,12 @@ using UnityEngine;
 /// 대거의 생성/등록/해제를 전담합니다.
 /// 최대 3개 충전, 단검 회수(RemoveDagger) 시 쿨타임 후 충전 회복.
 /// </summary>
+/// <remarks>
+/// [참조하는 곳]
+/// - DaggerThrower.cs : SpawnDagger(), RemoveDagger(), HasCharge 사용
+/// [같은 GameObject에 필요한 컴포넌트]
+/// - DaggerThrower (RequireComponent로 강제)
+/// </remarks>
 public class DaggerManager : MonoBehaviour
 {
     [Header("Prefab")]
@@ -21,9 +27,11 @@ public class DaggerManager : MonoBehaviour
     private readonly Queue<Coroutine> _rechargeQueue = new Queue<Coroutine>();
 
     // ── 외부 읽기 전용 프로퍼티 ───────────────────────────────
-    public int  CurrentCharges => _currentCharges;
-    public int  MaxCharges     => maxCharges;
-    public bool HasCharge      => _currentCharges > 0;
+    public int  CurrentCharges   => _currentCharges;
+    public int  MaxCharges       => maxCharges;
+    public bool HasCharge        => _currentCharges > 0;
+    /// <summary>현재 맵에 배치된 플레이어 핀 수 (RandomPinSpawner의 합산용)</summary>
+    public int  ActiveDaggerCount => _daggers.Count;
 
     /// <summary>충전 수가 바뀔 때 호출됩니다. (현재 충전, 최대 충전)</summary>
     public event System.Action<int, int> OnChargeChanged;

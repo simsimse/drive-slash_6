@@ -6,6 +6,13 @@ using UnityEngine;
 /// 충전이 남아 있는 한 최대 3개까지 동시에 배치할 수 있습니다.
 /// 실제 생성/소비는 DaggerManager에 위임합니다.
 /// </summary>
+/// <remarks>
+/// [의존]
+/// - DaggerManager.cs : 단검 생성(SpawnDagger) / 제거(RemoveDagger) 위임
+/// [참조하는 곳]
+/// - Dash.cs : CurrentDagger(대시 목표), ConsumeDagger()(대시 완료 후 소비) 사용
+/// [주의] 좌클릭(MouseButton 0)을 Repeller.cs와 공유 → 동시 동작 충돌 가능
+/// </remarks>
 [RequireComponent(typeof(DaggerManager))]
 public class DaggerThrower : MonoBehaviour
 {
@@ -24,7 +31,7 @@ public class DaggerThrower : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && _manager.HasCharge)
+        if (Input.GetMouseButtonDown(1) && _manager.HasCharge)
             ThrowDagger();
     }
 
