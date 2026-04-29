@@ -43,6 +43,7 @@ public class Dash : MonoBehaviour
     {
         _rb      = GetComponent<Rigidbody2D>();
         _thrower = GetComponent<DaggerThrower>();
+        _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
     void Update()
