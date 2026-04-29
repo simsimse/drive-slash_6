@@ -26,12 +26,19 @@ public class DaggerManager : MonoBehaviour
     private readonly List<Transform> _daggers      = new List<Transform>();
     private readonly Queue<Coroutine> _rechargeQueue = new Queue<Coroutine>();
 
+    // ── 내부 쿨타임 추적 ─────────────────────────────────────
+    private float _rechargeTimer;
+    private bool  _isRecharging;
+
     // ── 외부 읽기 전용 프로퍼티 ───────────────────────────────
-    public int  CurrentCharges   => _currentCharges;
-    public int  MaxCharges       => maxCharges;
-    public bool HasCharge        => _currentCharges > 0;
+    public int   CurrentCharges    => _currentCharges;
+    public int   MaxCharges        => maxCharges;
+    public bool  HasCharge         => _currentCharges > 0;
+    public float RechargeCooldown  => rechargeCooldown;
+    public float RechargeTimer     => _rechargeTimer;
+    public bool  IsRecharging      => _isRecharging;
     /// <summary>현재 맵에 배치된 플레이어 핀 수 (RandomPinSpawner의 합산용)</summary>
-    public int  ActiveDaggerCount => _daggers.Count;
+    public int   ActiveDaggerCount => _daggers.Count;
 
     /// <summary>충전 수가 바뀔 때 호출됩니다. (현재 충전, 최대 충전)</summary>
     public event System.Action<int, int> OnChargeChanged;
@@ -114,7 +121,16 @@ public class DaggerManager : MonoBehaviour
 
     private IEnumerator RechargeRoutine()
     {
-        yield return new WaitForSeconds(rechargeCooldown);
+        _isRecharging = true;
+        _rechargeTimer = 0f;
+
+        while (_rechargeTimer < rechargeCooldown)
+        {
+            _rechargeTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        _rechargeTimer = rechargeCooldown;
 
         if (_currentCharges < maxCharges)
         {
@@ -124,5 +140,9 @@ public class DaggerManager : MonoBehaviour
 
         if (_rechargeQueue.Count > 0)
             _rechargeQueue.Dequeue();
+
+        _isRecharging = _rechargeQueue.Count > 0;
+        if (_isRecharging)
+            _rechargeTimer = 0f;
     }
 }

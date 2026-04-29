@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 140082295}
   - component: {fileID: 140082294}
   - component: {fileID: 140082292}
+  - component: {fileID: 140082300}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -554,6 +555,25 @@ MonoBehaviour:
   boostMultiplier: 2
   boostDistance: 3
   dashDamage: 5
+--- !u!114 &140082300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140082287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54bc8109ff98bc488a8e57c1642cfea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DaggerChargeUI
+  chargedSprite: {fileID: -6021759554892577716, guid: 67acf0aaaa9e78f49941b0abcf55b384, type: 3}
+  emptySprite: {fileID: -6021759554892577716, guid: a9e760c50e5e0e34b85c5f9ad6b74bfb, type: 3}
+  cooldownSprite: {fileID: 0}
+  anchorPosition: {x: 20, y: -20}
+  slotSize: 80
+  slotSpacing: 8
+  cooldownFillColor: {r: 1, g: 1, b: 1, a: 0.8}
 --- !u!1 &273257487
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,6 +1336,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &1263608605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1263608607}
+  - component: {fileID: 1263608606}
+  m_Layer: 0
+  m_Name: Randompin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1263608606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263608605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1eac58f35b6c744b60dea31ee08e98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomPinSpawner
+  yellowPinPrefab: {fileID: 0}
+  redPinPrefab: {fileID: 4198378814517393398, guid: 80d71281066d77e4ab5c60a2f1251a29, type: 3}
+  purplePinPrefab: {fileID: 0}
+  spawnInterval: 1
+  maxTotalPins: 5
+  minX: -10
+  maxX: 10
+  minY: -5
+  maxY: 5
+--- !u!4 &1263608607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263608605}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.66808, y: -6.81709, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1573076039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1914,3 +1987,4 @@ SceneRoots:
   - {fileID: 273257490}
   - {fileID: 791816}
   - {fileID: 1049679406}
+  - {fileID: 1263608607}
