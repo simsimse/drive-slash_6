@@ -5,16 +5,23 @@ public class BossAI : MonoBehaviour
     public Animator bossAnimator;
     public Transform player;
 
-    public float moveSpeed = 3f;
-    public float moveTimeMin = 1f;
-    public float moveTimeMax = 3.5f;
-    public float idleTimeMin = 1f;
-    public float idleTimeMax = 2.5f;
+    public GameObject patternMarker; // 원 표시 오브젝트
 
-    private int moveDir;
-    private bool isMoving;
+    public float idleTimeMin = 6f;
+    public float idleTimeMax = 8f;
+
+    public float patternDuration = 3f; // 패턴 지속 시간
+
     private float timer;
+    private bool isPattern;
+    private int currentPattern;
+
+    private int facingDir = 1;
     private Vector3 originalScale;
+
+    public MonoBehaviour[] patternScripts;
+    private IBossPattern currentPatternScript;
+
 
     void Start()
     {
@@ -22,10 +29,12 @@ public class BossAI : MonoBehaviour
 
         if (player == null)
         {
-            GameObject playerObj = GameObject.Find("Player");
-            if (playerObj != null)
-                player = playerObj.transform;
+            GameObject p = GameObject.Find("Player");
+            if (p != null)
+                player = p.transform;
         }
+
+        patternMarker.SetActive(false);
 
         StartIdle();
     }
@@ -34,73 +43,92 @@ public class BossAI : MonoBehaviour
     {
         timer -= Time.deltaTime;
 
-        if (isMoving)
+        if (isPattern)
         {
-            transform.Translate(Vector2.right * moveDir * moveSpeed * Time.deltaTime);
-
             if (timer <= 0)
                 StartIdle();
         }
         else
         {
+            // Idle 상태일 때만 플레이어 바라보기
+            LookAtPlayer();
+
             if (timer <= 0)
-                StartMove();
+                StartPattern();
         }
-    }
-
-    void StartMove()
-    {
-        isMoving = true;
-
-        // 이동 시작 순간에만 Player 방향 결정
-        if (player != null)
-        {
-            if (player.position.x > transform.position.x)
-                moveDir = 1;
-            else
-                moveDir = -1;
-        }
-        else
-        {
-            moveDir = Random.Range(0, 2) == 0 ? -1 : 1;
-        }
-
-        timer = Random.Range(moveTimeMin, moveTimeMax);
-
-        bossAnimator.SetBool("isMove", true);
-
-        transform.localScale = new Vector3(
-            Mathf.Abs(originalScale.x) * moveDir,
-            originalScale.y,
-            originalScale.z
-        );
     }
 
     void StartIdle()
     {
-        isMoving = false;
+        isPattern = false;
         timer = Random.Range(idleTimeMin, idleTimeMax);
 
-        bossAnimator.SetBool("isMove", false);
+        bossAnimator.SetBool("isAttack", false);
+
+        patternMarker.SetActive(false);
     }
 
-    void ReverseDirection()
+   void StartPattern()
     {
-        moveDir *= -1;
+        isPattern = true;
+        timer = patternDuration;
+
+        // 1. 배열 체크
+        if (patternScripts == null || patternScripts.Length == 0)
+        {
+            Debug.LogWarning("patternScripts 배열이 비어있습니다.");
+            StartIdle();
+            return;
+        }
+
+        // 2. 안전하게 인덱스 선택
+        int index = Random.Range(0, patternScripts.Length);
+
+        // 3. 인터페이스 캐스팅
+        currentPatternScript = patternScripts[index] as IBossPattern;
+
+        // 4. 캐스팅 실패 체크 (중요)
+        if (currentPatternScript == null)
+        {
+            Debug.LogWarning("선택된 패턴이 IBossPattern을 구현하지 않음");
+            StartIdle();
+            return;
+        }
+
+        // 5. 패턴 실행
+        currentPatternScript.Execute();
+
+        // 6. 마커 표시
+        ShowPatternMarker(index + 1);
+    }
+
+    void LookAtPlayer()
+    {
+        if (player == null) return;
+
+        if (player.position.x > transform.position.x)
+            facingDir = 1;
+        else
+            facingDir = -1;
 
         transform.localScale = new Vector3(
-            Mathf.Abs(originalScale.x) * moveDir,
+            Mathf.Abs(originalScale.x) * facingDir,
             originalScale.y,
             originalScale.z
         );
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void ShowPatternMarker(int pattern)
     {
-        if (collision.gameObject.name == "Ground (1)" ||
-            collision.gameObject.name == "Ground (2)")
-        {
-            ReverseDirection();
-        }
+        patternMarker.SetActive(true);
+
+        SpriteRenderer sr = patternMarker.GetComponent<SpriteRenderer>();
+
+        if (pattern == 1)
+            sr.color = Color.yellow;
+        else if (pattern == 2)
+            sr.color = Color.blue;
+        else if (pattern == 3)
+            sr.color = new Color(1f, 0.5f, 0f); // 주황
     }
 }
