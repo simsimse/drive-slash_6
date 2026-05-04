@@ -7,10 +7,14 @@ public class GroundStomp : MonoBehaviour, IBossPattern
     public Transform damageZoneSpawnPoint;
 
     public float chargeTime = 2f;
-    public int damage = 20;
+    public int damage = 30;
 
     private GameObject currentDamageZone;
 
+    public float PatternDuration
+    {
+        get { return chargeTime; }
+    }
     public void Execute()
     {
         StartCoroutine(StompRoutine());
