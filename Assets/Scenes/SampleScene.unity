@@ -1479,6 +1479,8 @@ MonoBehaviour:
   idleTimeMax: 2
   patternDuration: 3
   patternScripts:
+  - {fileID: 1049679410}
+  - {fileID: 1049679411}
   - {fileID: 1049679412}
 --- !u!50 &1049679408
 Rigidbody2D:
