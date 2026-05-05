@@ -37,4 +37,29 @@ public class PlayerMovement : MonoBehaviour
 
         _rb.linearVelocity = _move.normalized * moveSpeed;
     }
+
+    private bool _isDead;
+
+    public void TakeDamage(int damage)
+    {
+        if (_isDead) return;
+
+        hp -= damage;
+        if (hp <= 0)
+        {
+            hp = 0;
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        _isDead = true;
+        _move = Vector2.zero;
+        if (_rb != null) _rb.linearVelocity = Vector2.zero;
+        enabled = false;
+
+        if (GameOverUI.Instance != null)
+            GameOverUI.Instance.Show();
+    }
 }

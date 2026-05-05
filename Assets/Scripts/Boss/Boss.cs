@@ -25,6 +25,20 @@ public class Boss : MonoBehaviour
 
     void Die()
     {
+        BossAI ai = GetComponent<BossAI>();
+
+        if (ai != null)
+            ai.enabled = false;
+
+        IBossPattern[] patterns = GetComponents<IBossPattern>();
+
+        foreach (IBossPattern pattern in patterns)
+        {
+            MonoBehaviour mb = pattern as MonoBehaviour;
+            if (mb != null)
+                mb.StopAllCoroutines();
+        }
+
         Destroy(gameObject);
     }
 }
