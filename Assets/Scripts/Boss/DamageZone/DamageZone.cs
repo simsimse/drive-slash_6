@@ -36,7 +36,7 @@ public class DamageZone : MonoBehaviour
 
         if (playerInside && playerMovement != null)
         {
-            playerMovement.hp -= damage;
+            playerMovement.TakeDamage(damage);
             Debug.Log("데미지 적용됨! 현재 HP: " + playerMovement.hp);
         }
         else
