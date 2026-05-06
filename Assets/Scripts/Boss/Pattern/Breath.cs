@@ -26,6 +26,11 @@ public class Breath : MonoBehaviour, IBossPattern
         get { return flyTime + chargeTime + landTime; }
     }
 
+    public bool CanExecute()
+    {
+        return true;
+    }
+
     public void Execute()
     {
         StartCoroutine(BreathRoutine());
