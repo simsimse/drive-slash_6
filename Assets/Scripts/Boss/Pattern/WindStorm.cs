@@ -16,6 +16,10 @@ public class WindStorm : MonoBehaviour, IBossPattern
     {
         get { return chargeTime; }
     }
+    public bool CanExecute()
+    {
+        return true;
+    }
     public void Execute()
     {
         StartCoroutine(StomRoutine());
