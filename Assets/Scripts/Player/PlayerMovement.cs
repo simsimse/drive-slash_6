@@ -15,8 +15,12 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public int   hp        = 10;
 
+    [Header("중력 설정")]
+    [Tooltip("최대 낙하 속도 (단위: m/s)")]
+    public float maxFallSpeed = 15f;
+
     private Rigidbody2D _rb;
-    private Vector2     _move;
+    private float       _moveX;
     private Dash        _dash;
 
     void Awake()
@@ -27,15 +31,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        _move.x = Input.GetAxisRaw("Horizontal");
-        _move.y = Input.GetAxisRaw("Vertical");
+        _moveX = Input.GetAxisRaw("Horizontal");
     }
 
     void FixedUpdate()
     {
         if (_dash != null && _dash.IsDashing) return;
 
-        _rb.linearVelocity = _move.normalized * moveSpeed;
+        // X축만 입력 제어, Y축은 물리(중력)에 맡김
+        float vy = _rb.linearVelocity.y;
+        if (vy < -maxFallSpeed) vy = -maxFallSpeed;
+        _rb.linearVelocity = new Vector2(_moveX * moveSpeed, vy);
     }
 
     private bool _isDead;
@@ -43,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (_isDead) return;
+        if (_dash != null && _dash.IsInvincible) return;
 
         hp -= damage;
         if (hp <= 0)
@@ -55,7 +62,6 @@ public class PlayerMovement : MonoBehaviour
     private void Die()
     {
         _isDead = true;
-        _move = Vector2.zero;
         if (_rb != null) _rb.linearVelocity = Vector2.zero;
         enabled = false;
 

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: -7740338857818079024}
   - component: {fileID: -2650798594758261814}
   - component: {fileID: -3381755501330764943}
-  - component: {fileID: 1284373439843761175}
+  - component: {fileID: 6021506181989963093}
   m_Layer: 0
-  m_Name: Triangle
+  m_Name: Triangle 1
   m_TagString: Dagger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -3173235052678937501, guid: ca02b40f670bb17438f3ff7aa9a57c41, type: 3}
+  m_Sprite: {fileID: -4371937194406701477, guid: ca02b40f670bb17438f3ff7aa9a57c41, type: 3}
   m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,7 +133,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.51, y: 1.51}
+    oldSize: {x: 1.52, y: 1.51}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dagger
   lifetime: 5
---- !u!114 &1284373439843761175
+--- !u!114 &6021506181989963093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -197,6 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895f6d1938f3e2842a3b9581fe8ac0e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PinData
-  damageMultiplier: 1
-  speedMultiplier: 1
+  damageMultiplier: 0.5
+  speedMultiplier: 0.5
   isInvincible: 0
