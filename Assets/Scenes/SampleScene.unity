@@ -799,6 +799,10 @@ MonoBehaviour:
   - {fileID: 206458989}
   - {fileID: 674789894}
   - {fileID: 1974863717}
+  - {fileID: 1974863717}
+  - {fileID: 244741115}
+  - {fileID: 1875391346}
+  - {fileID: 246067127}
 --- !u!1 &244741115 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7285049749697552501, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
@@ -982,6 +986,7 @@ MonoBehaviour:
   - {fileID: 266279585}
   - {fileID: 1251453200}
   - {fileID: 563347982}
+  - {fileID: 1126680374}
 --- !u!68 &266279588
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -1619,7 +1624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b687b4696a7dda947acdb09660063b1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugColliderHit
-  filterTag: 
 --- !u!1 &583053110
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,8 +2258,8 @@ Transform:
   m_GameObject: {fileID: 1031815213}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.7, y: -37.5, z: 2}
-  m_LocalScale: {x: 118.92999, y: 10, z: 1}
+  m_LocalPosition: {x: 9.9641, y: -37.5, z: 2}
+  m_LocalScale: {x: 114.39876, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3172,10 +3176,10 @@ MonoBehaviour:
   purplePinPrefab: {fileID: 4198378814517393398, guid: ee15525ee296e194fb4e7d9bbb26942a, type: 3}
   spawnInterval: 1
   maxTotalPins: 5
-  minX: -10
-  maxX: 10
-  minY: -5
-  maxY: 5
+  minX: -35
+  maxX: 30
+  minY: -22
+  maxY: 22
 --- !u!4 &1339556052
 Transform:
   m_ObjectHideFlags: 0
