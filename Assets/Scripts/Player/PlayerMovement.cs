@@ -22,16 +22,21 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private float       _moveX;
     private Dash        _dash;
+    private Vector3 _originalScale;
 
     void Awake()
     {
         _rb   = GetComponent<Rigidbody2D>();
         _dash = GetComponent<Dash>();
+
+        _originalScale = transform.localScale;
     }
 
     void Update()
     {
         _moveX = Input.GetAxisRaw("Horizontal");
+
+        FlipSprite();
     }
 
     void FixedUpdate()
@@ -43,6 +48,26 @@ public class PlayerMovement : MonoBehaviour
         if (vy < -maxFallSpeed) vy = -maxFallSpeed;
         _rb.linearVelocity = new Vector2(_moveX * moveSpeed, vy);
     }
+
+    void FlipSprite()
+{
+    if (_moveX > 0)
+    {
+        transform.localScale = new Vector3(
+            Mathf.Abs(_originalScale.x),
+            _originalScale.y,
+            _originalScale.z
+        );
+    }
+    else if (_moveX < 0)
+    {
+        transform.localScale = new Vector3(
+            -Mathf.Abs(_originalScale.x),
+            _originalScale.y,
+            _originalScale.z
+        );
+    }
+}
 
     private bool _isDead;
 
