@@ -455,7 +455,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_GravityScale: 10
+  m_GravityScale: 20
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -634,7 +634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 17
   hp: 10
-  maxFallSpeed: 50
+  maxFallSpeed: 70
 --- !u!114 &140082295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,6 +822,11 @@ MonoBehaviour:
   - {fileID: 206458989}
   - {fileID: 674789894}
   - {fileID: 1974863717}
+  - {fileID: 246067127}
+  - {fileID: 1875391346}
+  - {fileID: 244741115}
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &244741115 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7285049749697552501, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
@@ -843,6 +848,8 @@ MonoBehaviour:
   forwardTo: {fileID: 0}
   hp: 0
   visualsToDestroy: []
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &246067127 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2792770215140464163, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
@@ -867,6 +874,8 @@ MonoBehaviour:
   - {fileID: 246067127}
   - {fileID: 1875391346}
   - {fileID: 244741115}
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &248923379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,6 +1014,9 @@ MonoBehaviour:
   - {fileID: 266279585}
   - {fileID: 1251453200}
   - {fileID: 563347982}
+  - {fileID: 1126680374}
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!68 &266279588
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -1586,6 +1598,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!68 &563347985
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -1907,6 +1921,8 @@ MonoBehaviour:
   forwardTo: {fileID: 0}
   hp: 10
   visualsToDestroy: []
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &705567719
 GameObject:
   m_ObjectHideFlags: 0
@@ -2574,7 +2590,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7259765036011649903, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
   m_PrefabInstance: {fileID: 1601108390}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1126680379
+--- !u!114 &1126680383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2586,11 +2602,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2244d9df0416a49913476830c65175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPart
-  partName: Wing
+  partName: Part
   forwardTo: {fileID: 0}
   hp: 20
   visualsToDestroy:
   - {fileID: 1126680374}
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1168656717
 GameObject:
   m_ObjectHideFlags: 0
@@ -2859,6 +2877,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!68 &1251453203
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -3858,7 +3878,7 @@ PrefabInstance:
       addedObject: {fileID: 1601108394}
     - targetCorrespondingSourceObject: {fileID: 7259765036011649903, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1126680379}
+      addedObject: {fileID: 1126680383}
     - targetCorrespondingSourceObject: {fileID: -7285049749697552501, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       insertIndex: -1
       addedObject: {fileID: 244741120}
@@ -3955,7 +3975,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aaf2b8a6bd70e4428596ba6cfd95d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss
-  hp: 500
+  hp: 60
+  deathEffectPrefab: {fileID: 0}
+  deathEffectOffset: {x: 0, y: 0, z: 0}
+  partStaggerDelay: 0.15
+  finalDestroyDelay: 0.6
 --- !u!1 &1676861676
 GameObject:
   m_ObjectHideFlags: 0
@@ -4053,6 +4077,8 @@ MonoBehaviour:
   forwardTo: {fileID: 0}
   hp: 0
   visualsToDestroy: []
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1971494963
 GameObject:
   m_ObjectHideFlags: 0
@@ -4198,6 +4224,8 @@ MonoBehaviour:
   forwardTo: {fileID: 0}
   hp: 10
   visualsToDestroy: []
+  destroyEffectPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1983823259
 GameObject:
   m_ObjectHideFlags: 0
