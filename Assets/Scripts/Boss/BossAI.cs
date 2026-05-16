@@ -57,7 +57,11 @@ public class BossAI : MonoBehaviour
         if (isPattern)
 {
     if (timer <= 0)
-        StartIdle();
+{
+    isPattern = false;
+    StartIdle();
+    return;
+}
 
     return;
 }

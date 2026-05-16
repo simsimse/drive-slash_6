@@ -11,9 +11,15 @@ public class GroundStomp : MonoBehaviour, IBossPattern
 
     private GameObject currentDamageZone;
 
+    public Animator bossAnimator;
+    public string groundStompTrigger = "isGS";
+    public float stompStartDelay = 0.3f;
+
+    public float stompEndDelay = 0.4f;
+
     public float PatternDuration
     {
-        get { return chargeTime; }
+        get { return stompStartDelay + chargeTime + stompEndDelay;}
     }
 
     public bool CanExecute()
@@ -22,30 +28,39 @@ public class GroundStomp : MonoBehaviour, IBossPattern
     }
     public void Execute()
     {
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetTrigger(groundStompTrigger);
+        }
+
         StartCoroutine(StompRoutine());
     }
 
     IEnumerator StompRoutine()
-    {
-        // 1. 빨간 데미지 존 생성
-        currentDamageZone = Instantiate(
-            damageZonePrefab,
-            damageZoneSpawnPoint.position,
-            Quaternion.identity
-        );
+{
+    // 애니메이션 선딜
+    yield return new WaitForSeconds(stompStartDelay);
 
-        // 2. 차징 시간 대기
-        yield return new WaitForSeconds(chargeTime);
+    // 데미지 존 생성
+    currentDamageZone = Instantiate(
+        damageZonePrefab,
+        damageZoneSpawnPoint.position,
+        Quaternion.identity
+    );
 
-        // 3. 데미지 존 안에 있는 플레이어에게 데미지
-        DamageZone zone = currentDamageZone.GetComponent<DamageZone>();
+    // 차징 시간
+    yield return new WaitForSeconds(chargeTime);
 
-        if (zone != null)
-        {
-            zone.GiveDamage(damage);
-        }
+    // 데미지 적용
+    DamageZone zone = currentDamageZone.GetComponent<DamageZone>();
 
-        // 4. 데미지 존 제거
-        Destroy(currentDamageZone);
-    }
+    if (zone != null)
+        zone.GiveDamage(damage);
+
+    // 데미지 존 제거
+    Destroy(currentDamageZone);
+
+    // 내려찍은 후 후딜레이
+    yield return new WaitForSeconds(stompEndDelay);
+}
 }

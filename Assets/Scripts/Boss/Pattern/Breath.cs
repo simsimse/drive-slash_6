@@ -4,12 +4,18 @@ using UnityEngine;
 public class Breath : MonoBehaviour, IBossPattern
 {
     public Animator bossAnimator;
+    public string breathUpTrigger = "boss_breath_up";
+
+    public float flyUpDelay = 1.2f;
 
     public GameObject damageZonePrefab;
     public Transform damageZoneSpawnPoint;
 
     public Transform bossRoot;
     public Transform outsidePoint;
+
+    public string breathDownTrigger = "boss_breath_down";
+    public float breathDownTime = 40f;
 
     public float flyTime = 1.5f;     // 날아가는 애니메이션 시간
     public float chargeTime = 6f;    // 데미지 존 유지 시간
@@ -23,8 +29,8 @@ public class Breath : MonoBehaviour, IBossPattern
     // BossAI가 이 패턴이 총 몇 초 걸리는지 알 수 있게 함
     public float PatternDuration
     {
-        get { return flyTime + chargeTime + landTime; }
-    }
+        get { return flyUpDelay + chargeTime + breathDownTime; }
+    }   
 
     public bool CanExecute()
     {
@@ -37,7 +43,11 @@ public class Breath : MonoBehaviour, IBossPattern
     }
 
     IEnumerator BreathRoutine()
-    {
+    {   // 날아가는 애니메이션
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetTrigger(breathUpTrigger);
+        }
         // 1. 보스 원래 위치 저장
         originalPosition = bossRoot.position;
 
@@ -73,6 +83,8 @@ public class Breath : MonoBehaviour, IBossPattern
         // 8. 데미지 존 제거
         if (currentDamageZone != null)
             Destroy(currentDamageZone);
+
+        yield return new WaitForSeconds(1f);
 
         // 9. 보스를 원래 위치로 복귀
         bossRoot.position = originalPosition;

@@ -16,6 +16,9 @@ public class FlameCircle : MonoBehaviour, IBossPattern
     public float interval = 0.3f;          // 다음 원이 나오기까지 간격
     public int damage = 3;
 
+    public Animator bossAnimator;
+    public string flameCircleBool = "isFC";
+
 
     void Start()
     {
@@ -40,6 +43,11 @@ public class FlameCircle : MonoBehaviour, IBossPattern
 
     public void Execute()
     {
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetBool(flameCircleBool, true);
+        }
+
         StartCoroutine(FlameCircleRoutine());
     }
 
@@ -75,6 +83,11 @@ public class FlameCircle : MonoBehaviour, IBossPattern
 
             // 6. 다음 원 생성 전 짧은 대기
             yield return new WaitForSeconds(interval);
+        }
+
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetBool(flameCircleBool, false);
         }
     }
 

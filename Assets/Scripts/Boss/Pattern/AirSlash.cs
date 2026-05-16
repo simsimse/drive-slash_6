@@ -23,6 +23,9 @@ public class AirSlash : MonoBehaviour, IBossPattern
 
     public float PatternDuration => 1f;
 
+    public Animator bossAnimator;
+    public string airSlashTrigger = "isAS";
+
 
     public bool CanExecute()
     {
@@ -30,6 +33,11 @@ public class AirSlash : MonoBehaviour, IBossPattern
     }
     public void Execute()
     {
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetTrigger(airSlashTrigger);
+        }
+
         StartCoroutine(AirSlashRoutine());
     }
 
