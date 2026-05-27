@@ -662,9 +662,11 @@ MonoBehaviour:
   repelPower: 100
   metalJumpPower: 20
   rayCastRange: 10
-  invincibleDuration: 0.5
-  cooldown: 5
-  arrow: {fileID: 0}
+  parryDuration: 0.5
+  cooldown: 1
+  freezeDuration: 0.15
+  debugLog: 1
+  arrow: {fileID: 791816}
 --- !u!114 &140082297
 MonoBehaviour:
   m_ObjectHideFlags: 0
