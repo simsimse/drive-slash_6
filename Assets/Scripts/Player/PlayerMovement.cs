@@ -22,12 +22,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private float       _moveX;
     private Dash        _dash;
+    private Repeller    _repeller;
     private Vector3 _originalScale;
 
     void Awake()
     {
-        _rb   = GetComponent<Rigidbody2D>();
-        _dash = GetComponent<Dash>();
+        _rb       = GetComponent<Rigidbody2D>();
+        _dash     = GetComponent<Dash>();
+        _repeller = GetComponent<Repeller>();
 
         _originalScale = transform.localScale;
     }
@@ -81,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isDead) return;
         if (_dash != null && _dash.IsInvincible) return;
+        if (_repeller != null && _repeller.TryParry(gameObject)) return;
 
         hp -= damage;
         if (hp <= 0)

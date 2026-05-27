@@ -1,17 +1,26 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Shift 키로 Repersion 모드(0.5초 무적 튕겨내기)를 발동합니다.
-/// 발동 후 5초 쿨타임.
+/// 척력 모드일 때 Shift 키로 패링을 발동합니다.
+/// - 0.5초 동안 패링 윈도우가 유지되며, 그 동안 들어온 공격은 무효화됩니다.
+/// - 공격을 튕겨내면 화면이 잠시 멈춥니다(hitstop).
+/// - 투사체는 별도로 방향이 반전되어 보스 쪽으로 되돌아갑니다(AirSlashBullet 측에서 처리).
+/// 발동 후 cooldown 초의 쿨타임이 적용됩니다.
 /// </summary>
 /// <remarks>
 /// [의존]
-/// - Dash.cs          : IsDashing 중에는 발동 비활성화
-/// - arrow (Transform): ArrowVisualizer 와 동일한 arrow Transform 공유 (Inspector 연결 필요)
+/// - Dash.cs       : IsDashing 중에는 발동 비활성화
+/// - ForceMode.cs  : IsPullMode=false(척력) 일 때만 발동
+/// - arrow (Transform): ArrowVisualizer 와 동일한 arrow Transform 공유
+/// [참조하는 곳]
+/// - PlayerMovement.cs : TakeDamage 시 TryParry 호출로 패링 판정
+/// - AirSlashBullet.cs : TryParry 호출 후 성공 시 방향 반전
 /// [같은 GameObject에 필요한 컴포넌트]
-/// - Dash, Rigidbody2D
+/// - Dash, ForceMode, Rigidbody2D
 /// </remarks>
 [RequireComponent(typeof(Dash))]
+[RequireComponent(typeof(ForceMode))]
 public class Repeller : MonoBehaviour
 {
     [Header("척력 설정")]
@@ -19,57 +28,122 @@ public class Repeller : MonoBehaviour
     public float metalJumpPower = 20f;
     public float rayCastRange   = 8f;
 
-    [Header("Repersion 설정")]
-    public float invincibleDuration = 0.5f;  // 무적 지속 시간
-    public float cooldown           = 5f;    // 쿨타임
+    [Header("패링 설정")]
+    [Tooltip("Shift 입력 후 패링이 유지되는 시간(초)")]
+    public float parryDuration = 0.5f;
+    [Tooltip("패링 발동 후 다시 쓸 수 있을 때까지의 쿨타임(초)")]
+    public float cooldown      = 5f;
+    [Tooltip("공격을 튕겨냈을 때 화면이 멈추는 시간(초, 실시간)")]
+    public float freezeDuration = 0.15f;
+
+    [Header("디버그")]
+    [Tooltip("패링 상태 전환을 콘솔에 로그로 출력")]
+    public bool debugLog = true;
 
     public Transform arrow; // ArrowVisualizer와 같은 arrow Transform 공유
 
-    public bool IsInvincible { get; private set; } = false;
+    /// <summary>현재 패링 윈도우가 활성화되어 있는지. 외부 공격 스크립트가 참조.</summary>
+    public bool IsParrying { get; private set; } = false;
 
     private Rigidbody2D _rb;
     private Dash        _dash;
-    private float       _invincibleTimer = 0f;
-    private float       _cooldownTimer   = 0f;
+    private ForceMode   _forceMode;
+    private float       _parryTimer    = 0f;
+    private float       _cooldownTimer = 0f;
+    private bool        _freezing      = false;
 
     void Awake()
     {
-        _rb   = GetComponent<Rigidbody2D>();
-        _dash = GetComponent<Dash>();
+        _rb        = GetComponent<Rigidbody2D>();
+        _dash      = GetComponent<Dash>();
+        _forceMode = GetComponent<ForceMode>();
     }
 
     void Update()
     {
         if (_dash.IsDashing) return;
 
-        // 쿨타임 카운트다운
+        // 쿨타임 카운트다운 (실시간 사용: hitstop 중에도 흐름)
         if (_cooldownTimer > 0f)
-            _cooldownTimer -= Time.deltaTime;
+            _cooldownTimer -= Time.unscaledDeltaTime;
 
-        // 무적 시간 카운트다운
-        if (IsInvincible)
+        // 패링 윈도우 카운트다운 (실시간 사용: hitstop 중에도 흐름)
+        if (IsParrying)
         {
-            _invincibleTimer -= Time.deltaTime;
-            if (_invincibleTimer <= 0f)
-                IsInvincible = false;
+            _parryTimer -= Time.unscaledDeltaTime;
+            if (_parryTimer <= 0f)
+            {
+                IsParrying = false;
+                if (debugLog) Debug.Log("[Parry] 윈도우 종료 — 패링 실패(아무것도 못 튕김)");
+            }
         }
 
-        // Shift 입력 → Repersion 발동
-        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-            && _cooldownTimer <= 0f)
+        // 척력 모드일 때만 Shift 로 패링 발동
+        bool shiftDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
+        if (shiftDown)
         {
-            ActivateRepersion();
+            if (_forceMode.IsPullMode)
+            {
+                if (debugLog) Debug.Log("[Parry] Shift 입력 무시 — 현재 인력 모드(척력 모드에서만 패링 가능)");
+            }
+            else if (_cooldownTimer > 0f)
+            {
+                if (debugLog) Debug.Log($"[Parry] Shift 입력 무시 — 쿨타임 {_cooldownTimer:F2}s 남음");
+            }
+            else if (IsParrying)
+            {
+                if (debugLog) Debug.Log("[Parry] Shift 입력 무시 — 이미 패링 윈도우 진행 중");
+            }
+            else
+            {
+                ActivateParry();
+            }
         }
     }
 
-    private void ActivateRepersion()
+    private void ActivateParry()
     {
-        // 무적 판정 시작
-        IsInvincible     = true;
-        _invincibleTimer = invincibleDuration;
-        _cooldownTimer   = cooldown;
+        IsParrying     = true;
+        _parryTimer    = parryDuration;
+        _cooldownTimer = cooldown;
+
+        if (debugLog) Debug.Log($"[Parry] 발동! 윈도우 {parryDuration}s, 쿨타임 {cooldown}s");
 
         FireRepel();
+    }
+
+    /// <summary>
+    /// 공격 측이 호출. 패링 중이면 화면을 잠시 멈추고 true 를 반환합니다.
+    /// 호출자는 true 를 받으면 데미지 적용을 건너뛰고, 투사체라면 방향을 반전합니다.
+    /// </summary>
+    public bool TryParry(GameObject attacker)
+    {
+        if (!IsParrying)
+        {
+            if (debugLog) Debug.Log($"[Parry] TryParry 실패 — 패링 중 아님 (attacker={(attacker != null ? attacker.name : "null")})");
+            return false;
+        }
+
+        if (debugLog) Debug.Log($"[Parry] 성공! attacker={(attacker != null ? attacker.name : "null")} 남은 윈도우 {_parryTimer:F2}s");
+
+        if (!_freezing)
+            StartCoroutine(FreezeRoutine());
+
+        return true;
+    }
+
+    private IEnumerator FreezeRoutine()
+    {
+        _freezing = true;
+        float prevScale = Time.timeScale;
+        Time.timeScale = 0f;
+        if (debugLog) Debug.Log($"[Parry] Hitstop 시작 — timeScale {prevScale} → 0 ({freezeDuration}s)");
+        yield return new WaitForSecondsRealtime(freezeDuration);
+        // 다른 시스템이 timeScale 을 바꾼게 아니라면 원래 값으로 복원
+        if (Mathf.Approximately(Time.timeScale, 0f))
+            Time.timeScale = prevScale > 0f ? prevScale : 1f;
+        if (debugLog) Debug.Log($"[Parry] Hitstop 종료 — timeScale {Time.timeScale} 복원");
+        _freezing = false;
     }
 
     private void FireRepel()
