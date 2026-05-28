@@ -42,6 +42,8 @@ public class Dash : MonoBehaviour
     public bool IsInvincible { get; private set; } = false;
     /// <summary>현재 콤보 스택 수 (UI 표시 등에 사용 가능).</summary>
     public int  ComboStacks { get; private set; } = 0;
+    /// <summary>현재 대시 방향(정규화). 대시 중이 아닐 때는 Vector2.zero.</summary>
+    public Vector2 DashDir => IsDashing ? _dashDir : Vector2.zero;
 
     private Rigidbody2D   _rb;
     private DaggerThrower _thrower;

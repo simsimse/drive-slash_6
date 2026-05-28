@@ -28,6 +28,13 @@ public class BossPart : MonoBehaviour
     [Tooltip("HP 소진 시 한 번에 제거할 GameObject 들. 비어 있으면 자기 자신만 제거.")]
     public GameObject[] visualsToDestroy;
 
+    [Header("연출")]
+    [Tooltip("부위 파괴 시 생성할 이펙트 프리팹 (선택)")]
+    public GameObject destroyEffectPrefab;
+
+    [Tooltip("이펙트 생성 위치 오프셋")]
+    public Vector3 effectOffset;
+
     public bool IsDestroyed { get; private set; } = false;
 
     public void TakeDamage(int damage)
@@ -49,9 +56,15 @@ public class BossPart : MonoBehaviour
         }
     }
 
-    private void DestroyPart()
+    public void DestroyPart()
     {
+        if (IsDestroyed) return;
         IsDestroyed = true;
+
+        if (destroyEffectPrefab != null)
+        {
+            Instantiate(destroyEffectPrefab, transform.position + effectOffset, Quaternion.identity);
+        }
 
         if (visualsToDestroy != null && visualsToDestroy.Length > 0)
         {

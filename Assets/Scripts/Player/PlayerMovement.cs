@@ -51,7 +51,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FlipSprite()
 {
-    if (_moveX > 0)
+    float dirX = _moveX;
+
+    // 대시 중에는 입력이 없으므로 대시 방향으로 좌우 결정
+    if (_dash != null && _dash.IsDashing)
+        dirX = _dash.DashDir.x;
+
+    if (dirX > 0)
     {
         transform.localScale = new Vector3(
             Mathf.Abs(_originalScale.x),
@@ -59,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
             _originalScale.z
         );
     }
-    else if (_moveX < 0)
+    else if (dirX < 0)
     {
         transform.localScale = new Vector3(
             -Mathf.Abs(_originalScale.x),
