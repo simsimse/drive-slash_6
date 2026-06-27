@@ -6,6 +6,8 @@ public class WindStorm : MonoBehaviour, IBossPattern
 {
     public GameObject damageZonePrefab;
     public Transform[] spawnPoints; // 3개 위치 지정
+    public Animator bossAnimator;
+    public string windStormBool = "isWS";
 
     public float chargeTime = 2f;
     public int damage = 20;
@@ -22,6 +24,10 @@ public class WindStorm : MonoBehaviour, IBossPattern
     }
     public void Execute()
     {
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetBool(windStormBool, true);
+        }
         StartCoroutine(StomRoutine());
     }
 
@@ -63,5 +69,10 @@ public class WindStorm : MonoBehaviour, IBossPattern
         }
 
         damageZones.Clear();
+
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetBool(windStormBool, false);
+        }
     }
 }

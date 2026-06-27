@@ -7,6 +7,8 @@ public class DragonClaw : MonoBehaviour, IBossPattern
     public Transform player;
     public Transform bossTransform;
     public Transform clawSpawnPoint;
+    public Animator bossAnimator;
+    public string clawTriger = "isClaw";
 
     [Header("데미지존")]
     public GameObject clawZonePrefab;
@@ -41,6 +43,10 @@ public class DragonClaw : MonoBehaviour, IBossPattern
 
     public void Execute()
     {
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetTrigger(clawTriger);
+        }
         StartCoroutine(ClawRoutine());
     }
 

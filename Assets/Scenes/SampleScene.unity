@@ -2361,6 +2361,7 @@ MonoBehaviour:
   - {fileID: 1049679411}
   - {fileID: 1049679413}
   - {fileID: 1049679414}
+  - {fileID: 1049679412}
   priorityPatternScript: {fileID: 1049679415}
   moveSpeed: 2
   moveTimeMin: 2
@@ -2402,6 +2403,8 @@ MonoBehaviour:
   - {fileID: 1123230767}
   - {fileID: 530205455}
   - {fileID: 964896872}
+  bossAnimator: {fileID: 1601108393}
+  windStormBool: isWS
   chargeTime: 3
   damage: 3
 --- !u!114 &1049679412
@@ -2492,6 +2495,8 @@ MonoBehaviour:
   player: {fileID: 140082291}
   bossTransform: {fileID: 1049679406}
   clawSpawnPoint: {fileID: 1118457480}
+  bossAnimator: {fileID: 1601108393}
+  clawTriger: isClaw
   clawZonePrefab: {fileID: 4954486509152943997, guid: ed6e070e63350a04b8e14bac4c60cd60, type: 3}
   triggerRange: 20
   duration: 1
@@ -3484,11 +3489,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3848,23 +3853,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8021504926911765715, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8385313
+      value: 0.83853155
       objectReference: {fileID: 0}
     - target: {fileID: 8021504926911765715, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8021504926911765715, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8021504926911765715, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.5448535
+      value: 0.54485303
       objectReference: {fileID: 0}
     - target: {fileID: 8021504926911765715, guid: 41516ed96f87a6243af4e9cb073a4e17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 46.541
+      value: 66.029
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
