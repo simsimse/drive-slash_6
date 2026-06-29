@@ -2361,7 +2361,6 @@ MonoBehaviour:
   - {fileID: 1049679411}
   - {fileID: 1049679413}
   - {fileID: 1049679414}
-  - {fileID: 1049679412}
   priorityPatternScript: {fileID: 1049679415}
   moveSpeed: 2
   moveTimeMin: 2
@@ -2380,6 +2379,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GroundStomp
   damageZonePrefab: {fileID: 6368939468358444961, guid: db8b2791d04d78e439f5f2f93f0df74f, type: 3}
   damageZoneSpawnPoint: {fileID: 1414061033}
+  stompEffectPrefab: {fileID: 1380504119972212920, guid: 49f1bab78dbe3664fba5cc2b397f0f28, type: 3}
+  stompEffectPosition: {x: 13, y: -32, z: 0}
+  effectDestroyTime: 2
+  stompSound: {fileID: 8300000, guid: 21c4a490b24ba2045bc815f7626a40ef, type: 3}
+  stompSoundVolume: 1
   chargeTime: 2
   damage: 4
   bossAnimator: {fileID: 1601108393}
@@ -2403,6 +2407,10 @@ MonoBehaviour:
   - {fileID: 1123230767}
   - {fileID: 530205455}
   - {fileID: 964896872}
+  windStormEffectPrefab: {fileID: 4772634663576830964, guid: e1385af346f4e624eb313ec1ea4fcd7e, type: 3}
+  effectDestroyTime: 2
+  windStormSound: {fileID: 8300000, guid: c91fcf414acc0344cb03b13996f1bf3b, type: 3}
+  windStormSoundVolume: 1
   bossAnimator: {fileID: 1601108393}
   windStormBool: isWS
   chargeTime: 3
@@ -2448,6 +2456,12 @@ MonoBehaviour:
   spawnRadiusAroundPlayer: 3
   damageZonePrefab: {fileID: 2525811946391892143, guid: 6e551bed522f8b14f8b79442bec8e074, type: 3}
   corkBoard: {fileID: 1983823260}
+  outerFireEffectPrefab: {fileID: 6957404535208659528, guid: 8cfdad9e4bb277744b607ef80095016f, type: 3}
+  innerFireEffectPrefab: {fileID: 6957404535208659528, guid: 56a210489ad882647b1282559366a82d, type: 3}
+  flameCircleStartSound: {fileID: 8300000, guid: b0e62ed71b1538648b719821f4f63b4c, type: 3}
+  flameCircleStartVolume: 1
+  flameCircleSound: {fileID: 8300000, guid: a652877b012108e41871f867ada9f176, type: 3}
+  flameCircleSoundVolume: 1
   spawnCount: 6
   warningTime: 0.7
   interval: 0.3
@@ -2472,6 +2486,8 @@ MonoBehaviour:
   airSlashPrefab: {fileID: 2744034834865546298, guid: a8ca13c7ff116554e8e61a17f1206b75, type: 3}
   bossCenter: {fileID: 1049679406}
   angleOffset: 20
+  airSlashSound: {fileID: 8300000, guid: 5c7b6d4002009e842bd2621585546d19, type: 3}
+  airSlashSoundVolume: 1
   bulletCount: 10
   spawnRadiusX: 2.5
   spawnRadiusY: 4
@@ -2498,6 +2514,8 @@ MonoBehaviour:
   bossAnimator: {fileID: 1601108393}
   clawTriger: isClaw
   clawZonePrefab: {fileID: 4954486509152943997, guid: ed6e070e63350a04b8e14bac4c60cd60, type: 3}
+  clawSound: {fileID: 8300000, guid: 8b23b175a78d6b5458322e3a6c9905d0, type: 3}
+  clawSoundVolume: 1
   triggerRange: 20
   duration: 1
   damage: 2

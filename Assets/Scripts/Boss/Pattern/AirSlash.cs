@@ -6,12 +6,15 @@ public class AirSlash : MonoBehaviour, IBossPattern
     [Header("탄환 설정")]
     public int repeatCount = 2;
     public float repeatInterval = 0.5f;
-    
 
     public float rotationPerWave = 20f;
     public GameObject airSlashPrefab;
     public Transform bossCenter;
     public float angleOffset = 20f;
+
+    [Header("사운드")]
+    public AudioClip airSlashSound;
+    public float airSlashSoundVolume = 1f;
 
     [Header("패턴 설정")]
     public int bulletCount = 8;
@@ -26,40 +29,44 @@ public class AirSlash : MonoBehaviour, IBossPattern
     public Animator bossAnimator;
     public string airSlashTrigger = "isAS";
 
-
     public bool CanExecute()
     {
         return true;
     }
+
     public void Execute()
     {
         if (bossAnimator != null)
-        {
             bossAnimator.SetTrigger(airSlashTrigger);
-        }
+
+        if (airSlashSound != null)
+            AudioSource.PlayClipAtPoint(
+                airSlashSound,
+                bossCenter.position,
+                airSlashSoundVolume
+            );
 
         StartCoroutine(AirSlashRoutine());
     }
 
     IEnumerator AirSlashRoutine()
-{
-    float angleStep = 360f / bulletCount;
-    float rotationPerWave = angleStep / 2f; // 빈 공간으로 쏘기
-
-    for (int wave = 0; wave < repeatCount; wave++)
     {
-        float currentRotation = wave * rotationPerWave;
+        float angleStep = 360f / bulletCount;
+        float rotationPerWave = angleStep / 2f;
 
-        for (int i = 0; i < bulletCount; i++)
+        for (int wave = 0; wave < repeatCount; wave++)
         {
-            float angle = angleStep * i + angleOffset + currentRotation;
+            float currentRotation = wave * rotationPerWave;
 
-            SpawnBullet(angle);
+            for (int i = 0; i < bulletCount; i++)
+            {
+                float angle = angleStep * i + angleOffset + currentRotation;
+                SpawnBullet(angle);
+            }
+
+            yield return new WaitForSeconds(repeatInterval);
         }
-
-        yield return new WaitForSeconds(repeatInterval);
     }
-}
 
     void SpawnBullet(float angle)
     {
@@ -70,9 +77,7 @@ public class AirSlash : MonoBehaviour, IBossPattern
             Mathf.Sin(rad)
         ).normalized;
 
-
         Vector3 center = bossCenter.position + (Vector3)spawnCenterOffset;
-
 
         Vector3 spawnPos = center + new Vector3(
             Mathf.Cos(rad) * spawnRadiusX,
@@ -89,11 +94,8 @@ public class AirSlash : MonoBehaviour, IBossPattern
         AirSlashBullet slash = bullet.GetComponent<AirSlashBullet>();
 
         if (slash != null)
-        {
             slash.SetDirection(dir, bulletSpeed, damage);
-        }
 
-        // 탄환이 날아가는 방향으로 회전
         float zRot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         bullet.transform.rotation = Quaternion.Euler(0, 0, zRot);
     }

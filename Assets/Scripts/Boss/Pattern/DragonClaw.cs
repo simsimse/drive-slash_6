@@ -13,6 +13,11 @@ public class DragonClaw : MonoBehaviour, IBossPattern
     [Header("데미지존")]
     public GameObject clawZonePrefab;
 
+    [Header("사운드")]
+    public AudioClip clawSound;
+    [Range(0f, 1f)]
+    public float clawSoundVolume = 1f;
+
     [Header("패턴 설정")]
     public float triggerRange = 3f;
     public float duration = 1f;
@@ -44,38 +49,47 @@ public class DragonClaw : MonoBehaviour, IBossPattern
     public void Execute()
     {
         if (bossAnimator != null)
-        {
             bossAnimator.SetTrigger(clawTriger);
-        }
+
         StartCoroutine(ClawRoutine());
     }
 
     IEnumerator ClawRoutine()
-{
-    if (player == null || bossTransform == null || clawSpawnPoint == null)
-        yield break;
+    {
+        if (player == null || bossTransform == null || clawSpawnPoint == null)
+            yield break;
 
-    int dir = player.position.x > bossTransform.position.x ? 1 : -1;
+        int dir = player.position.x > bossTransform.position.x ? 1 : -1;
 
-    GameObject zoneObj = Instantiate(
-        clawZonePrefab,
-        clawSpawnPoint.position,
-        Quaternion.identity
-    );
+        GameObject zoneObj = Instantiate(
+            clawZonePrefab,
+            clawSpawnPoint.position,
+            Quaternion.identity
+        );
 
-    Vector3 scale = zoneObj.transform.localScale;
-    scale.x = Mathf.Abs(scale.x) * dir;
-    zoneObj.transform.localScale = scale;
+        Vector3 scale = zoneObj.transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * dir;
+        zoneObj.transform.localScale = scale;
 
-    // 데미지존이 1초 동안 보이면서 플레이어에게 회피 시간을 줌
-    yield return new WaitForSeconds(duration);
+        // 플레이어에게 회피 시간 제공
+        yield return new WaitForSeconds(duration);
 
-    // 사라지기 직전에 데미지 판정
-    DamageZone zone = zoneObj.GetComponent<DamageZone>();
+        // 데미지 적용
+        DamageZone zone = zoneObj.GetComponent<DamageZone>();
 
-    if (zone != null)
-        zone.GiveDamage(damage);
+        if (zone != null)
+            zone.GiveDamage(damage);
 
-    Destroy(zoneObj);
-}
+        // 효과음 재생
+        if (clawSound != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                clawSound,
+                zoneObj.transform.position,
+                clawSoundVolume
+            );
+        }
+
+        Destroy(zoneObj);
+    }
 }
