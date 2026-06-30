@@ -496,6 +496,10 @@ MonoBehaviour:
   cooldown: 5
   freezeDuration: 0.15
   debugLog: 1
+  cooldown: 1
+  freezeDuration: 0.15
+  debugLog: 1
+  arrow: {fileID: 791816}
 --- !u!114 &140082297
 MonoBehaviour:
   m_ObjectHideFlags: 0

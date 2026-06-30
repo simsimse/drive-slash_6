@@ -13,6 +13,7 @@ using UnityEngine;
 /// - Dash.cs       : IsDashing 중에는 발동 비활성화
 /// - ForceMode.cs  : IsPullMode=false(척력) 일 때만 발동
 /// - 발사 방향은 마우스 위치 기준으로 계산합니다.
+/// - arrow (Transform): ArrowVisualizer 와 동일한 arrow Transform 공유
 /// [참조하는 곳]
 /// - PlayerMovement.cs : TakeDamage 시 TryParry 호출로 패링 판정
 /// - AirSlashBullet.cs : TryParry 호출 후 성공 시 방향 반전
@@ -39,7 +40,6 @@ public class Repeller : MonoBehaviour
     [Header("디버그")]
     [Tooltip("패링 상태 전환을 콘솔에 로그로 출력")]
     public bool debugLog = true;
-
     /// <summary>현재 패링 윈도우가 활성화되어 있는지. 외부 공격 스크립트가 참조.</summary>
     public bool IsParrying { get; private set; } = false;
 
