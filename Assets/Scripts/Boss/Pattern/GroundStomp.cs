@@ -37,30 +37,30 @@ public class GroundStomp : MonoBehaviour, IBossPattern
     }
 
     IEnumerator StompRoutine()
-{
-    // 애니메이션 선딜
-    yield return new WaitForSeconds(stompStartDelay);
+    {
+        // 애니메이션 선딜
+        yield return new WaitForSeconds(stompStartDelay);
 
-    // 데미지 존 생성
-    currentDamageZone = Instantiate(
-        damageZonePrefab,
-        damageZoneSpawnPoint.position,
-        Quaternion.identity
-    );
+        // 데미지 존 생성
+        currentDamageZone = Instantiate(
+            damageZonePrefab,
+            damageZoneSpawnPoint.position,
+            Quaternion.identity
+        );
 
-    // 차징 시간
-    yield return new WaitForSeconds(chargeTime);
+        // 차징 시간
+        yield return new WaitForSeconds(chargeTime);
 
-    // 데미지 적용
-    DamageZone zone = currentDamageZone.GetComponent<DamageZone>();
+        // 데미지 적용
+        DamageZone zone = currentDamageZone.GetComponent<DamageZone>();
 
-    if (zone != null)
-        zone.GiveDamage(damage);
+        if (zone != null)
+            zone.GiveDamage(damage);
 
-    // 데미지 존 제거
-    Destroy(currentDamageZone);
+        // 데미지 존 제거
+        Destroy(currentDamageZone);
 
-    // 내려찍은 후 후딜레이
-    yield return new WaitForSeconds(stompEndDelay);
-}
+        // 내려찍은 후 후딜레이
+        yield return new WaitForSeconds(stompEndDelay);
+    }
 }

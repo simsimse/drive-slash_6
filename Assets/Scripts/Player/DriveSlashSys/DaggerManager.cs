@@ -23,13 +23,25 @@ public class DaggerManager : MonoBehaviour
 
     // ── 내부 상태 ──────────────────────────────────────────────
     private int                      _currentCharges;
-    private readonly List<Transform> _daggers      = new List<Transform>();
-    private readonly Queue<Coroutine> _rechargeQueue = new Queue<Coroutine>();
+    private readonly List<Transform> _daggers       = new List<Transform>();
+    private readonly Queue<Coroutine> _rechargeQueue   = new Queue<Coroutine>();
+    private readonly Queue<float>    _rechargeEndTimes = new Queue<float>();
 
     // ── 외부 읽기 전용 프로퍼티 ───────────────────────────────
-    public int  CurrentCharges   => _currentCharges;
-    public int  MaxCharges       => maxCharges;
-    public bool HasCharge        => _currentCharges > 0;
+    public int   CurrentCharges    => _currentCharges;
+    public int   MaxCharges        => maxCharges;
+    public bool  HasCharge         => _currentCharges > 0;
+    public float RechargeCooldown  => rechargeCooldown;
+    /// <summary>충전 중인 슬롯이 하나라도 있는지.</summary>
+    public bool  HasPendingRecharge => _rechargeEndTimes.Count > 0;
+    /// <summary>가장 먼저 끝날 충전의 남은 시간(초). 대기 중이 없으면 0.</summary>
+    public float NextRechargeRemaining => HasPendingRecharge
+        ? Mathf.Max(0f, _rechargeEndTimes.Peek() - Time.time)
+        : 0f;
+    /// <summary>가장 먼저 끝날 충전의 진행도 (0=시작, 1=완료). 대기 중이 없으면 1.</summary>
+    public float NextRechargeProgress => (HasPendingRecharge && rechargeCooldown > 0f)
+        ? 1f - (NextRechargeRemaining / rechargeCooldown)
+        : 1f;
     /// <summary>현재 맵에 배치된 플레이어 핀 수 (RandomPinSpawner의 합산용)</summary>
     public int  ActiveDaggerCount => _daggers.Count;
 
@@ -106,6 +118,7 @@ public class DaggerManager : MonoBehaviour
             if (c != null) StopCoroutine(c);
 
         _rechargeQueue.Clear();
+        _rechargeEndTimes.Clear();
         _currentCharges = maxCharges;
         OnChargeChanged?.Invoke(_currentCharges, maxCharges);
     }
@@ -114,6 +127,8 @@ public class DaggerManager : MonoBehaviour
 
     private IEnumerator RechargeRoutine()
     {
+        _rechargeEndTimes.Enqueue(Time.time + rechargeCooldown);
+
         yield return new WaitForSeconds(rechargeCooldown);
 
         if (_currentCharges < maxCharges)
@@ -122,7 +137,7 @@ public class DaggerManager : MonoBehaviour
             OnChargeChanged?.Invoke(_currentCharges, maxCharges);
         }
 
-        if (_rechargeQueue.Count > 0)
-            _rechargeQueue.Dequeue();
+        if (_rechargeQueue.Count > 0)    _rechargeQueue.Dequeue();
+        if (_rechargeEndTimes.Count > 0) _rechargeEndTimes.Dequeue();
     }
 }
