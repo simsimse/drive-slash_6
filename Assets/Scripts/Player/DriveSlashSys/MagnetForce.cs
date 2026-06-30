@@ -20,8 +20,6 @@ public class MagnetForce : MonoBehaviour
     public float magnetForce = 25f;
     public float magnetRange = 8f;
 
-    public Transform arrow; // ArrowVisualizer와 같은 arrow Transform 공유
-
     private Rigidbody2D _rb;
     private ForceMode   _forceMode;
     private Dash        _dash;

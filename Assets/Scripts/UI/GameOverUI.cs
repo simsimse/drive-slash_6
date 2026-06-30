@@ -14,7 +14,7 @@ using UnityEngine.UI;
 ///
 /// [게임플레이 정지]
 /// Show() 호출 시 자동으로 다음 타입의 MonoBehaviour 들을 모두 비활성화합니다:
-///  - 플레이어: Dash, DaggerThrower, DaggerManager, Repeller, MagnetForce, ForceMode, ArrowVisualizer
+///  - 플레이어: Dash, DaggerThrower, DaggerManager, Repeller, MagnetForce, ForceMode
 ///  - 보스: BossAI, Boss, Breath, FlameCircle, GroundStomp, WindStorm, DamageZone
 ///  - 시스템: RandomPinSpawner
 /// 그 외에 추가로 멈추고 싶은 스크립트는 extraScriptsToDisable 에 드래그하세요.
@@ -56,7 +56,6 @@ public class GameOverUI : MonoBehaviour
         DisableAllOfType<Repeller>();
         DisableAllOfType<MagnetForce>();
         DisableAllOfType<ForceMode>();
-        DisableAllOfType<ArrowVisualizer>();
         DisableAllOfType<RandomPinSpawner>();
         DisableAllOfType<BossAI>();
         DisableAllOfType<Boss>();

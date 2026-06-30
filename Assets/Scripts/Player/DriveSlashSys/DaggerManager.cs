@@ -23,13 +23,28 @@ public class DaggerManager : MonoBehaviour
 
     // ── 내부 상태 ──────────────────────────────────────────────
     private int                      _currentCharges;
-    private readonly List<Transform> _daggers      = new List<Transform>();
-    private readonly Queue<Coroutine> _rechargeQueue = new Queue<Coroutine>();
+    private readonly List<Transform> _daggers = new List<Transform>();
+    // 회수됐지만 아직 채워지지 않은 충전 수. 한 번에 하나씩 순차적으로 회복됩니다.
+    private int                      _pendingRecharges;
+    // 현재 채워지고 있는 충전이 끝나는 시각(Time.time 기준).
+    private float                    _nextRechargeEndTime;
+    private Coroutine                _rechargeRoutine;
 
     // ── 외부 읽기 전용 프로퍼티 ───────────────────────────────
-    public int  CurrentCharges   => _currentCharges;
-    public int  MaxCharges       => maxCharges;
-    public bool HasCharge        => _currentCharges > 0;
+    public int   CurrentCharges    => _currentCharges;
+    public int   MaxCharges        => maxCharges;
+    public bool  HasCharge         => _currentCharges > 0;
+    public float RechargeCooldown  => rechargeCooldown;
+    /// <summary>충전 중인 슬롯이 하나라도 있는지.</summary>
+    public bool  HasPendingRecharge => _pendingRecharges > 0;
+    /// <summary>가장 먼저 끝날 충전의 남은 시간(초). 대기 중이 없으면 0.</summary>
+    public float NextRechargeRemaining => HasPendingRecharge
+        ? Mathf.Max(0f, _nextRechargeEndTime - Time.time)
+        : 0f;
+    /// <summary>가장 먼저 끝날 충전의 진행도 (0=시작, 1=완료). 대기 중이 없으면 1.</summary>
+    public float NextRechargeProgress => (HasPendingRecharge && rechargeCooldown > 0f)
+        ? 1f - (NextRechargeRemaining / rechargeCooldown)
+        : 1f;
     /// <summary>현재 맵에 배치된 플레이어 핀 수 (RandomPinSpawner의 합산용)</summary>
     public int  ActiveDaggerCount => _daggers.Count;
 
@@ -71,11 +86,10 @@ public class DaggerManager : MonoBehaviour
         _daggers.Remove(dagger.transform);
         Destroy(dagger);
 
-        if (_currentCharges < maxCharges)
-        {
-            Coroutine c = StartCoroutine(RechargeRoutine());
-            _rechargeQueue.Enqueue(c);
-        }
+        // 회수 1건당 충전 1개 예약. 회복은 순차적으로(한 개씩) 진행됩니다.
+        _pendingRecharges++;
+        if (_rechargeRoutine == null)
+            _rechargeRoutine = StartCoroutine(RechargeLoop());
     }
 
     /// <summary>가장 가까운 대거를 반환합니다. 없으면 null.</summary>
@@ -102,27 +116,39 @@ public class DaggerManager : MonoBehaviour
     /// <summary>진행 중인 모든 리차지를 취소하고 충전을 최대로 초기화합니다.</summary>
     public void ResetCharges()
     {
-        foreach (Coroutine c in _rechargeQueue)
-            if (c != null) StopCoroutine(c);
+        if (_rechargeRoutine != null)
+        {
+            StopCoroutine(_rechargeRoutine);
+            _rechargeRoutine = null;
+        }
 
-        _rechargeQueue.Clear();
-        _currentCharges = maxCharges;
+        _pendingRecharges = 0;
+        _currentCharges   = maxCharges;
         OnChargeChanged?.Invoke(_currentCharges, maxCharges);
     }
 
     // ── 내부 코루틴 ────────────────────────────────────────────
 
-    private IEnumerator RechargeRoutine()
+    /// <summary>
+    /// 예약된 충전(_pendingRecharges)을 한 번에 하나씩 순차적으로 회복합니다.
+    /// 한 칸이 다 차야 다음 칸이 차오르기 시작하므로 UI 표시와 일치합니다.
+    /// </summary>
+    private IEnumerator RechargeLoop()
     {
-        yield return new WaitForSeconds(rechargeCooldown);
-
-        if (_currentCharges < maxCharges)
+        while (_pendingRecharges > 0)
         {
-            _currentCharges++;
-            OnChargeChanged?.Invoke(_currentCharges, maxCharges);
+            _nextRechargeEndTime = Time.time + rechargeCooldown;
+            yield return new WaitForSeconds(rechargeCooldown);
+
+            if (_currentCharges < maxCharges)
+            {
+                _currentCharges++;
+                OnChargeChanged?.Invoke(_currentCharges, maxCharges);
+            }
+
+            _pendingRecharges--;
         }
 
-        if (_rechargeQueue.Count > 0)
-            _rechargeQueue.Dequeue();
+        _rechargeRoutine = null;
     }
 }
