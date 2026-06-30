@@ -58,21 +58,13 @@ public class SmallBreath : MonoBehaviour, IBossPattern
 
         int dir = bossTransform.localScale.x >= 0 ? 1 : -1;
 
-        Quaternion zoneRotation;
-
-        if (dir == 1)
-            zoneRotation = Quaternion.Euler(0f, 0f, 90f);
-        else
-            zoneRotation = Quaternion.Euler(0f, 0f, -90f);
-
         currentBreathZone = Instantiate(
             breathZonePrefab,
             breathSpawnPoint.position,
-            zoneRotation
+            breathSpawnPoint.rotation
         );
 
-        currentBreathZone.transform.localScale =
-            breathZonePrefab.transform.localScale;
+        currentBreathZone.transform.localScale = breathZonePrefab.transform.localScale;
 
         SmallBreathDamageZone zone =
             currentBreathZone.GetComponent<SmallBreathDamageZone>();
@@ -106,31 +98,32 @@ public class SmallBreath : MonoBehaviour, IBossPattern
             bossAnimator.SetBool(smallBreathBool, false);
     }
 
-    void SpawnBreathParticle(int dir)
-    {
-        if (breathParticlePrefab == null)
-            return;
+   void SpawnBreathParticle(int dir)
+{
+    if (breathParticlePrefab == null)
+        return;
 
-        Vector3 particlePos = breathSpawnPoint.position;
+    Vector3 particlePos = breathSpawnPoint.position;
 
-        particlePos += new Vector3(
-            breathParticleOffset.x * dir,
-            breathParticleOffset.y,
-            breathParticleOffset.z
-        );
+    particlePos += new Vector3(
+        breathParticleOffset.x * dir,
+        breathParticleOffset.y,
+        breathParticleOffset.z
+    );
 
-        Quaternion particleRotation = Quaternion.Euler(
-            breathParticleRotation.x,
-            breathParticleRotation.y,
-            breathParticleRotation.z * dir
-        );
+    Quaternion particleRotation;
 
-        currentBreathParticle = Instantiate(
-            breathParticlePrefab,
-            particlePos,
-            particleRotation
-        );
+    if (dir == 1)
+        particleRotation = Quaternion.Euler(0f, 0f, 90f);
+    else
+        particleRotation = Quaternion.Euler(0f, 0f, 270f);
 
-        currentBreathParticle.transform.localScale = breathParticleScale;
-    }
+    currentBreathParticle = Instantiate(
+        breathParticlePrefab,
+        particlePos,
+        particleRotation
+    );
+
+    currentBreathParticle.transform.localScale = breathParticleScale;
+}
 }
