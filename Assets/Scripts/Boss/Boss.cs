@@ -27,6 +27,12 @@ public class Boss : MonoBehaviour
     [Tooltip("파츠 연출 종료 후 본체 제거까지 대기 시간(초)")]
     public float finalDestroyDelay = 0.6f;
 
+    [Header("피격 연출")]
+    [Tooltip("피격 시 화면 흔들림 사용")]
+    public bool  shakeOnHit      = true;
+    public float hitShakeDuration  = 0.15f;
+    public float hitShakeMagnitude = 0.2f;
+
     private bool isDying = false;
 
     public void TakeDamage(int damage)
@@ -34,6 +40,9 @@ public class Boss : MonoBehaviour
         if (isDying) return;
 
         hp -= damage;
+
+        if (shakeOnHit && CameraShake.Instance != null)
+            CameraShake.Instance.Shake(hitShakeDuration, hitShakeMagnitude);
 
         if (hp <= 0)
         {

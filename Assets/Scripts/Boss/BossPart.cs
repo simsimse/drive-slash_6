@@ -35,6 +35,12 @@ public class BossPart : MonoBehaviour
     [Tooltip("이펙트 생성 위치 오프셋")]
     public Vector3 effectOffset;
 
+    [Header("피격 연출")]
+    [Tooltip("피격 시 화면 흔들림 사용")]
+    public bool  shakeOnHit        = true;
+    public float hitShakeDuration  = 0.15f;
+    public float hitShakeMagnitude = 0.2f;
+
     public bool IsDestroyed { get; private set; } = false;
 
     public void TakeDamage(int damage)
@@ -48,6 +54,9 @@ public class BossPart : MonoBehaviour
         }
 
         hp -= damage;
+
+        if (shakeOnHit && CameraShake.Instance != null)
+            CameraShake.Instance.Shake(hitShakeDuration, hitShakeMagnitude);
 
         if (hp <= 0)
         {
