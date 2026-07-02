@@ -1,28 +1,25 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 /// <summary>
-/// 플레이어 사망 시 표시되는 게임오버 UI 및 게임플레이 정지 처리.
+/// 보스를 처치(보스 오브젝트 제거)했을 때 표시되는 승리 UI 및 게임플레이 정지 처리.
+/// 재시작(OnRestart) / 나가기(OnQuit) 버튼을 제공합니다.
 /// </summary>
 /// <remarks>
 /// [사용법]
-/// 1. Canvas 아래에 GameOverPanel(비활성)을 만들고 이 스크립트를 붙입니다.
-/// 2. panel 필드에 그 GameOverPanel을 연결.
-/// 3. 재시작/종료 버튼이 있으면 OnRestart, OnQuit 을 OnClick에 연결.
-/// 4. PlayerMovement.Die()에서 GameOverUI.Instance.Show() 호출.
+/// 1. Canvas 아래에 VictoryPanel(비활성)을 만들고 이 스크립트를 붙입니다.
+/// 2. panel 필드에 그 VictoryPanel을 연결.
+/// 3. 재시작/나가기 버튼의 OnClick에 각각 OnRestart, OnQuit 을 연결.
+/// 4. Boss.cs 사망 처리에서 VictoryUI.Instance.Show() 가 호출됩니다.
 ///
 /// [게임플레이 정지]
-/// Show() 호출 시 자동으로 다음 타입의 MonoBehaviour 들을 모두 비활성화합니다:
-///  - 플레이어: Dash, DaggerThrower, DaggerManager, Repeller, MagnetForce
-///  - 보스: BossAI, Boss, Breath, FlameCircle, GroundStomp, WindStorm, DamageZone
-///  - 시스템: RandomPinSpawner
-/// 그 외에 추가로 멈추고 싶은 스크립트는 extraScriptsToDisable 에 드래그하세요.
-/// 모든 Rigidbody2D 의 simulated 도 false 로 만들어 발사체/물리 오브젝트도 그 자리에 멈춥니다.
+/// Show() 호출 시 플레이어·시스템 스크립트를 비활성화하고,
+/// 모든 Rigidbody2D 시뮬레이션을 멈춰 남은 발사체도 그 자리에 정지시킵니다.
+/// 그 외 추가로 멈추고 싶은 스크립트는 extraScriptsToDisable 에 드래그하세요.
 /// </remarks>
-public class GameOverUI : MonoBehaviour
+public class VictoryUI : MonoBehaviour
 {
-    public static GameOverUI Instance { get; private set; }
+    public static VictoryUI Instance { get; private set; }
 
     [Header("UI 참조")]
     public GameObject panel;
@@ -33,6 +30,8 @@ public class GameOverUI : MonoBehaviour
     [Header("옵션")]
     [Tooltip("씬의 모든 Rigidbody2D 시뮬레이션을 멈춥니다.")]
     public bool freezeAllRigidbodies2D = true;
+
+    private bool _shown;
 
     void Awake()
     {
@@ -48,6 +47,9 @@ public class GameOverUI : MonoBehaviour
 
     public void Show()
     {
+        if (_shown) return;
+        _shown = true;
+
         if (panel != null) panel.SetActive(true);
 
         DisableAllOfType<Dash>();
@@ -56,13 +58,6 @@ public class GameOverUI : MonoBehaviour
         DisableAllOfType<Repeller>();
         DisableAllOfType<MagnetForce>();
         DisableAllOfType<RandomPinSpawner>();
-        DisableAllOfType<BossAI>();
-        DisableAllOfType<Boss>();
-        DisableAllOfType<Breath>();
-        DisableAllOfType<FlameCircle>();
-        DisableAllOfType<GroundStomp>();
-        DisableAllOfType<WindStorm>();
-        DisableAllOfType<DamageZone>();
 
         if (extraScriptsToDisable != null)
         {

@@ -23,13 +23,19 @@ public class PlayerMovement : MonoBehaviour
     private float       _moveX;
     private Dash        _dash;
     private Repeller    _repeller;
+    private Animator    _animator;
     private Vector3 _originalScale;
+
+    // Animator 파라미터 해시 (문자열 비교 비용 절약)
+    private static readonly int IsMovingHash  = Animator.StringToHash("isMoving");
+    private static readonly int IsDashingHash = Animator.StringToHash("isDashing");
 
     void Awake()
     {
         _rb       = GetComponent<Rigidbody2D>();
         _dash     = GetComponent<Dash>();
         _repeller = GetComponent<Repeller>();
+        _animator = GetComponent<Animator>();
 
         _originalScale = transform.localScale;
     }
@@ -39,6 +45,19 @@ public class PlayerMovement : MonoBehaviour
         _moveX = Input.GetAxisRaw("Horizontal");
 
         FlipSprite();
+        UpdateAnimation();
+    }
+
+    // 대시 중이면 dash, 입력이 있으면 run, 없으면(가만히 있을 때) idle
+    private void UpdateAnimation()
+    {
+        if (_animator == null) return;
+
+        bool dashing = _dash != null && _dash.IsDashing;
+        bool moving  = Mathf.Abs(_moveX) > 0.01f;
+
+        _animator.SetBool(IsDashingHash, dashing);
+        _animator.SetBool(IsMovingHash, moving);
     }
 
     void FixedUpdate()

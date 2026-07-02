@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 척력 모드일 때 Shift 키로 패링을 발동합니다.
+/// Shift 키로 패링을 발동합니다.
 /// - 0.5초 동안 패링 윈도우가 유지되며, 그 동안 들어온 공격은 무효화됩니다.
 /// - 공격을 튕겨내면 화면이 잠시 멈춥니다(hitstop).
 /// - 투사체는 별도로 방향이 반전되어 보스 쪽으로 되돌아갑니다(AirSlashBullet 측에서 처리).
@@ -11,17 +11,14 @@ using UnityEngine;
 /// <remarks>
 /// [의존]
 /// - Dash.cs       : IsDashing 중에는 발동 비활성화
-/// - ForceMode.cs  : IsPullMode=false(척력) 일 때만 발동
 /// - 발사 방향은 마우스 위치 기준으로 계산합니다.
-/// - arrow (Transform): ArrowVisualizer 와 동일한 arrow Transform 공유
 /// [참조하는 곳]
 /// - PlayerMovement.cs : TakeDamage 시 TryParry 호출로 패링 판정
 /// - AirSlashBullet.cs : TryParry 호출 후 성공 시 방향 반전
 /// [같은 GameObject에 필요한 컴포넌트]
-/// - Dash, ForceMode, Rigidbody2D
+/// - Dash, Rigidbody2D
 /// </remarks>
 [RequireComponent(typeof(Dash))]
-[RequireComponent(typeof(ForceMode))]
 public class Repeller : MonoBehaviour
 {
     [Header("척력 설정")]
@@ -37,24 +34,40 @@ public class Repeller : MonoBehaviour
     [Tooltip("공격을 튕겨냈을 때 화면이 멈추는 시간(초, 실시간)")]
     public float freezeDuration = 0.15f;
 
+    [Header("사운드")]
+    public AudioClip parrySound;
+    public float     parrySoundVolume = 1f;
+
     [Header("디버그")]
     [Tooltip("패링 상태 전환을 콘솔에 로그로 출력")]
     public bool debugLog = true;
     /// <summary>현재 패링 윈도우가 활성화되어 있는지. 외부 공격 스크립트가 참조.</summary>
     public bool IsParrying { get; private set; } = false;
 
+    // ── 쿨타임 읽기 전용 프로퍼티 (UI 표시용) ──────────────────
+    /// <summary>지금 패링을 쓸 수 있는지 (쿨타임이 끝났는지).</summary>
+    public bool  IsReady            => _cooldownTimer <= 0f;
+    /// <summary>쿨타임이 진행 중인지.</summary>
+    public bool  IsOnCooldown       => _cooldownTimer > 0f;
+    /// <summary>쿨타임 남은 시간(초). 준비됐으면 0.</summary>
+    public float CooldownRemaining  => Mathf.Max(0f, _cooldownTimer);
+    /// <summary>쿨타임 총 길이(초).</summary>
+    public float CooldownDuration   => cooldown;
+    /// <summary>쿨타임 진행도 (0=방금 사용, 1=사용 가능). UI fillAmount용.</summary>
+    public float CooldownProgress   => (cooldown > 0f)
+        ? 1f - (CooldownRemaining / cooldown)
+        : 1f;
+
     private Rigidbody2D _rb;
     private Dash        _dash;
-    private ForceMode   _forceMode;
     private float       _parryTimer    = 0f;
     private float       _cooldownTimer = 0f;
     private bool        _freezing      = false;
 
     void Awake()
     {
-        _rb        = GetComponent<Rigidbody2D>();
-        _dash      = GetComponent<Dash>();
-        _forceMode = GetComponent<ForceMode>();
+        _rb   = GetComponent<Rigidbody2D>();
+        _dash = GetComponent<Dash>();
     }
 
     void Update()
@@ -76,15 +89,11 @@ public class Repeller : MonoBehaviour
             }
         }
 
-        // 척력 모드일 때만 Shift 로 패링 발동
+        // Shift 로 패링 발동
         bool shiftDown = Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift);
         if (shiftDown)
         {
-            if (_forceMode.IsPullMode)
-            {
-                if (debugLog) Debug.Log("[Parry] Shift 입력 무시 — 현재 인력 모드(척력 모드에서만 패링 가능)");
-            }
-            else if (_cooldownTimer > 0f)
+            if (_cooldownTimer > 0f)
             {
                 if (debugLog) Debug.Log($"[Parry] Shift 입력 무시 — 쿨타임 {_cooldownTimer:F2}s 남음");
             }
@@ -106,6 +115,9 @@ public class Repeller : MonoBehaviour
         _cooldownTimer = cooldown;
 
         if (debugLog) Debug.Log($"[Parry] 발동! 윈도우 {parryDuration}s, 쿨타임 {cooldown}s");
+
+        if (parrySound != null)
+            AudioSource.PlayClipAtPoint(parrySound, transform.position, parrySoundVolume);
 
         FireRepel();
     }

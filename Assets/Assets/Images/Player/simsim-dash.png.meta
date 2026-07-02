@@ -1,0 +1,871 @@
+fileFormatVersion: 2
+guid: 42fba56325f22ff459b53f90d385b3b5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4752763614838700071
+    second: simsim-dash_0
+  - first:
+      213: -2745755804502781349
+    second: simsim-dash_1
+  - first:
+      213: -8230533016035147326
+    second: simsim-dash_2
+  - first:
+      213: -9170308151210557607
+    second: simsim-dash_3
+  - first:
+      213: 3127562681182586849
+    second: simsim-dash_4
+  - first:
+      213: 997208507488792461
+    second: simsim-dash_5
+  - first:
+      213: 9216352986559402965
+    second: simsim-dash_6
+  - first:
+      213: -180238187868356274
+    second: simsim-dash_7
+  - first:
+      213: -6266352904214158503
+    second: simsim-dash_8
+  - first:
+      213: 6940219704977414345
+    second: simsim-dash_9
+  - first:
+      213: 3334897462496707547
+    second: simsim-dash_10
+  - first:
+      213: -4410328404453453165
+    second: simsim-dash_11
+  - first:
+      213: 4125209213857000863
+    second: simsim-dash_12
+  - first:
+      213: -8420056170132709421
+    second: simsim-dash_13
+  - first:
+      213: 9106870612518091291
+    second: simsim-dash_14
+  - first:
+      213: -2458253338923455122
+    second: simsim-dash_15
+  - first:
+      213: 2322360536262614674
+    second: simsim-dash_16
+  - first:
+      213: -2619352543820221155
+    second: simsim-dash_17
+  - first:
+      213: 1558295338512151009
+    second: simsim-dash_18
+  - first:
+      213: 3201364235763023743
+    second: simsim-dash_19
+  - first:
+      213: 3260115608287592274
+    second: simsim-dash_20
+  - first:
+      213: -4294610162994129837
+    second: simsim-dash_21
+  - first:
+      213: -4884738012490036905
+    second: simsim-dash_22
+  - first:
+      213: -7193549886624347064
+    second: simsim-dash_23
+  - first:
+      213: -8664839028219056656
+    second: simsim-dash_24
+  - first:
+      213: 5962547751612382166
+    second: simsim-dash_25
+  - first:
+      213: -4649397134070404362
+    second: simsim-dash_26
+  - first:
+      213: 9069947754754006811
+    second: simsim-dash_27
+  - first:
+      213: -5362625858047835965
+    second: simsim-dash_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 75
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: simsim-dash_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 1083
+        width: 232
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d7432c6caaca0eb0800000000000000
+      internalID: -4752763614838700071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_1
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 1084
+        width: 211
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5215a8b4ad15e9d0800000000000000
+      internalID: -2745755804502781349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_2
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 1083
+        width: 24
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c1c91344d547cd80800000000000000
+      internalID: -8230533016035147326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_3
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 1083
+        width: 220
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95fb936a2558cb080800000000000000
+      internalID: -9170308151210557607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_4
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 1080
+        width: 21
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e708a020b5576b20800000000000000
+      internalID: 3127562681182586849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_5
+      rect:
+        serializedVersion: 2
+        x: 798
+        y: 1081
+        width: 209
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8fedd7aadbc6dd00800000000000000
+      internalID: 997208507488792461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_6
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 1083
+        width: 206
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d3db70063017ef70800000000000000
+      internalID: 9216352986559402965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 827
+        width: 205
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e418525b25aaf7df0800000000000000
+      internalID: -180238187868356274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_8
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 825
+        width: 20
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 953e313fb317909a0800000000000000
+      internalID: -6266352904214158503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 828
+        width: 209
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c858520d0d905060800000000000000
+      internalID: 6940219704977414345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_10
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 828
+        width: 210
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd3c776b29fe74e20800000000000000
+      internalID: 3334897462496707547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_11
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 824
+        width: 212
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3929cbddead5bc2c0800000000000000
+      internalID: -4410328404453453165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_12
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 825
+        width: 206
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9d6d187cefaf3930800000000000000
+      internalID: 4125209213857000863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_13
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 571
+        width: 205
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3df576e4683f52b80800000000000000
+      internalID: -8420056170132709421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_14
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 572
+        width: 207
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1ab592629a126e70800000000000000
+      internalID: 9106870612518091291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_15
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 572
+        width: 238
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6dac85dc9782edd0800000000000000
+      internalID: -2458253338923455122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_16
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 626
+        width: 57
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29e91547a9eaa3020800000000000000
+      internalID: 2322360536262614674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_17
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 572
+        width: 207
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1574144db036abd0800000000000000
+      internalID: -2619352543820221155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_18
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 568
+        width: 205
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e1f92baa5d20a510800000000000000
+      internalID: 1558295338512151009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_19
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 314
+        width: 208
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7f7b459fc78d6c20800000000000000
+      internalID: 3201364235763023743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_20
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 316
+        width: 207
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25f30b67fd14e3d20800000000000000
+      internalID: 3260115608287592274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_21
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 315
+        width: 210
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 354d3f18fca7664c0800000000000000
+      internalID: -4294610162994129837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_22
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 317
+        width: 210
+        height: 133
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7590fa878ace53cb0800000000000000
+      internalID: -4884738012490036905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_23
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 315
+        width: 208
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84c44bdbd706b2c90800000000000000
+      internalID: -7193549886624347064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_24
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 58
+        width: 208
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fdef07efce40c780800000000000000
+      internalID: -8664839028219056656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_25
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 59
+        width: 210
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dbf823d6993fb250800000000000000
+      internalID: 5962547751612382166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_26
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 60
+        width: 209
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6faa30ca0f50a7fb0800000000000000
+      internalID: -4649397134070404362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_27
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 60
+        width: 236
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1fd675ad6deedd70800000000000000
+      internalID: 9069947754754006811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: simsim-dash_28
+      rect:
+        serializedVersion: 2
+        x: 1049
+        y: 56
+        width: 212
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c00cbbc1302495b0800000000000000
+      internalID: -5362625858047835965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      simsim-dash_0: -4752763614838700071
+      simsim-dash_1: -2745755804502781349
+      simsim-dash_10: 3334897462496707547
+      simsim-dash_11: -4410328404453453165
+      simsim-dash_12: 4125209213857000863
+      simsim-dash_13: -8420056170132709421
+      simsim-dash_14: 9106870612518091291
+      simsim-dash_15: -2458253338923455122
+      simsim-dash_16: 2322360536262614674
+      simsim-dash_17: -2619352543820221155
+      simsim-dash_18: 1558295338512151009
+      simsim-dash_19: 3201364235763023743
+      simsim-dash_2: -8230533016035147326
+      simsim-dash_20: 3260115608287592274
+      simsim-dash_21: -4294610162994129837
+      simsim-dash_22: -4884738012490036905
+      simsim-dash_23: -7193549886624347064
+      simsim-dash_24: -8664839028219056656
+      simsim-dash_25: 5962547751612382166
+      simsim-dash_26: -4649397134070404362
+      simsim-dash_27: 9069947754754006811
+      simsim-dash_28: -5362625858047835965
+      simsim-dash_3: -9170308151210557607
+      simsim-dash_4: 3127562681182586849
+      simsim-dash_5: 997208507488792461
+      simsim-dash_6: 9216352986559402965
+      simsim-dash_7: -180238187868356274
+      simsim-dash_8: -6266352904214158503
+      simsim-dash_9: 6940219704977414345
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
