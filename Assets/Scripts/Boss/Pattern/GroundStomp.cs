@@ -15,6 +15,11 @@ public class GroundStomp : MonoBehaviour, IBossPattern
     public AudioClip stompSound;
     public float stompSoundVolume = 1f;
 
+    [Header("화면 흔들림")]
+    public bool  shakeCamera     = true;
+    public float shakeDuration   = 0.3f;
+    public float shakeMagnitude  = 0.4f;
+
     public float chargeTime = 2f;
     public int damage = 30;
 
@@ -67,6 +72,9 @@ public class GroundStomp : MonoBehaviour, IBossPattern
 
         PlayStompSound();
         SpawnStompEffect();
+
+        if (shakeCamera && CameraShake.Instance != null)
+            CameraShake.Instance.Shake(shakeDuration, shakeMagnitude);
 
         yield return new WaitForSeconds(stompEndDelay);
     }

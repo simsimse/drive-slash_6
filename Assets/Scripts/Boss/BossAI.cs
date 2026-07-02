@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BossAI : MonoBehaviour
@@ -20,6 +21,9 @@ public class BossAI : MonoBehaviour
     public MonoBehaviour[] patternScripts;
     private IBossPattern currentPatternScript;
     public MonoBehaviour priorityPatternScript; // DragonClaw 넣기
+
+    // StartPattern에서 실행 가능한 패턴 후보를 담는 재사용 버퍼
+    private readonly List<IBossPattern> _executable = new List<IBossPattern>();
 
     [Header("이동 설정")]
     public float moveSpeed = 2f;
@@ -149,7 +153,7 @@ void StartMove()
         return;
     }
 
-    // 2. 일반 랜덤 패턴
+    // 2. 일반 랜덤 패턴 — 지금 실행 가능한(CanExecute) 패턴만 후보로 모음
     if (patternScripts == null || patternScripts.Length == 0)
     {
         Debug.LogWarning("patternScripts 배열이 비어있습니다.");
@@ -157,16 +161,22 @@ void StartMove()
         return;
     }
 
-    int index = Random.Range(0, patternScripts.Length);
-
-    currentPatternScript = patternScripts[index] as IBossPattern;
-
-    if (currentPatternScript == null)
+    _executable.Clear();
+    foreach (MonoBehaviour mb in patternScripts)
     {
-        Debug.LogWarning("선택된 패턴이 IBossPattern을 구현하지 않음");
+        IBossPattern p = mb as IBossPattern;
+        if (p != null && p.CanExecute())
+            _executable.Add(p);
+    }
+
+    if (_executable.Count == 0)
+    {
+        // 실행 가능한 패턴이 없으면 이번엔 대기
         StartIdle();
         return;
     }
+
+    currentPatternScript = _executable[Random.Range(0, _executable.Count)];
 
     timer = currentPatternScript.PatternDuration;
     currentPatternScript.Execute();

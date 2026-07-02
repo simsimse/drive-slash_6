@@ -13,6 +13,10 @@ public class DragonClaw : MonoBehaviour, IBossPattern
     [Header("데미지존")]
     public GameObject clawZonePrefab;
 
+    [Header("이펙트")]
+    public GameObject clawEffectPrefab;
+    public float effectDestroyTime = 2f;
+
     [Header("사운드")]
     public AudioClip clawSound;
     [Range(0f, 1f)]
@@ -80,6 +84,9 @@ public class DragonClaw : MonoBehaviour, IBossPattern
         if (zone != null)
             zone.GiveDamage(damage);
 
+        // 이펙트 생성
+        SpawnClawEffect(zoneObj.transform.position, dir);
+
         // 효과음 재생
         if (clawSound != null)
         {
@@ -91,5 +98,24 @@ public class DragonClaw : MonoBehaviour, IBossPattern
         }
 
         Destroy(zoneObj);
+    }
+
+    void SpawnClawEffect(Vector3 position, int dir)
+    {
+        if (clawEffectPrefab == null)
+            return;
+
+        GameObject effect = Instantiate(
+            clawEffectPrefab,
+            position,
+            clawEffectPrefab.transform.rotation
+        );
+
+        // 클로 방향에 맞춰 이펙트 좌우 반전
+        Vector3 scale = effect.transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * dir;
+        effect.transform.localScale = scale;
+
+        Destroy(effect, effectDestroyTime);
     }
 }

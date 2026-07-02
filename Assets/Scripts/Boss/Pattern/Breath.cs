@@ -26,11 +26,15 @@ public class Breath : MonoBehaviour, IBossPattern
     private GameObject currentDamageZone;
     private Vector3 originalPosition;
 
-    // BossAI가 이 패턴이 총 몇 초 걸리는지 알 수 있게 함
+    // 데미지 존 제거 후 복귀까지의 대기 시간(BreathRoutine과 일치시켜야 함)
+    private const float ReturnDelay = 1f;
+
+    // BossAI가 이 패턴이 총 몇 초 걸리는지 알 수 있게 함.
+    // 실제 BreathRoutine의 대기 시간 합과 일치시켜야 BossAI가 끝난 뒤 바로 다음 행동으로 넘어감.
     public float PatternDuration
     {
-        get { return flyUpDelay + chargeTime + breathDownTime; }
-    }   
+        get { return flyTime + chargeTime + ReturnDelay + landTime; }
+    }
 
     public bool CanExecute()
     {
@@ -43,11 +47,7 @@ public class Breath : MonoBehaviour, IBossPattern
     }
 
     IEnumerator BreathRoutine()
-    {   // 날아가는 애니메이션
-        if (bossAnimator != null)
-        {
-            bossAnimator.SetTrigger(breathUpTrigger);
-        }
+    {
         // 1. 보스 원래 위치 저장
         originalPosition = bossRoot.position;
 
@@ -84,7 +84,7 @@ public class Breath : MonoBehaviour, IBossPattern
         if (currentDamageZone != null)
             Destroy(currentDamageZone);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(ReturnDelay);
 
         // 9. 보스를 원래 위치로 복귀
         bossRoot.position = originalPosition;

@@ -21,6 +21,18 @@ public class WindStorm : MonoBehaviour, IBossPattern
     public float chargeTime = 2f;
     public int damage = 20;
 
+    [Header("날개 파괴 시 비활성")]
+    [Tooltip("이 부위(날개)가 파괴되면 WindStorm 패턴을 실행하지 않습니다. 날개 BossPart를 연결하세요.")]
+    public BossPart requiredPart;
+
+    // requiredPart가 인스펙터에서 실제로 지정됐는지 (파괴되어 null이 된 경우와 구분하기 위함)
+    private bool _hasRequiredPart;
+
+    void Awake()
+    {
+        _hasRequiredPart = requiredPart != null;
+    }
+
     private List<GameObject> damageZones = new List<GameObject>();
 
     private Vector3[] effectPositions =
@@ -37,6 +49,10 @@ public class WindStorm : MonoBehaviour, IBossPattern
 
     public bool CanExecute()
     {
+        // 날개 부위가 지정돼 있고, 그게 파괴(제거)되었으면 실행 불가
+        if (_hasRequiredPart && (requiredPart == null || requiredPart.IsDestroyed))
+            return false;
+
         return true;
     }
 

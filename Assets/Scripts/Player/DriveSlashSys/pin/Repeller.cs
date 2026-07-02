@@ -38,6 +38,12 @@ public class Repeller : MonoBehaviour
     public AudioClip parrySound;
     public float     parrySoundVolume = 1f;
 
+    [Header("패링 성공 효과")]
+    [Tooltip("패링 성공 시 생성할 이펙트 프리팹 (parrying)")]
+    public GameObject parryEffectPrefab;
+    [Tooltip("생성된 이펙트의 크기 배율 (1 = 프리팹 원본 크기)")]
+    public float parryEffectScale = 1f;
+
     [Header("디버그")]
     [Tooltip("패링 상태 전환을 콘솔에 로그로 출력")]
     public bool debugLog = true;
@@ -116,9 +122,6 @@ public class Repeller : MonoBehaviour
 
         if (debugLog) Debug.Log($"[Parry] 발동! 윈도우 {parryDuration}s, 쿨타임 {cooldown}s");
 
-        if (parrySound != null)
-            AudioSource.PlayClipAtPoint(parrySound, transform.position, parrySoundVolume);
-
         FireRepel();
     }
 
@@ -135,6 +138,18 @@ public class Repeller : MonoBehaviour
         }
 
         if (debugLog) Debug.Log($"[Parry] 성공! attacker={(attacker != null ? attacker.name : "null")} 남은 윈도우 {_parryTimer:F2}s");
+
+        // 성공 위치: 공격자가 있으면 그 위치, 없으면 플레이어 위치
+        Vector3 fxPos = attacker != null ? attacker.transform.position : transform.position;
+
+        if (parrySound != null)
+            AudioSource.PlayClipAtPoint(parrySound, fxPos, parrySoundVolume);
+
+        if (parryEffectPrefab != null)
+        {
+            GameObject fx = Instantiate(parryEffectPrefab, fxPos, Quaternion.identity);
+            fx.transform.localScale *= parryEffectScale;
+        }
 
         if (!_freezing)
             StartCoroutine(FreezeRoutine());
