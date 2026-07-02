@@ -21,12 +21,18 @@ public class DaggerThrower : MonoBehaviour
         ? _activeDaggers[_activeDaggers.Count - 1]
         : null;
 
+    [Header("설치 범위 (RandomPinSpawner의 영역과 공유)")]
+    [Tooltip("비워두면 자동으로 씬에서 RandomPinSpawner를 찾습니다. 이 영역 밖을 클릭하면 설치되지 않습니다.")]
+    public RandomPinSpawner placementArea;
+
     private DaggerManager        _manager;
     private readonly List<GameObject> _activeDaggers = new List<GameObject>();
 
     void Awake()
     {
         _manager = GetComponent<DaggerManager>();
+        if (placementArea == null)
+            placementArea = FindObjectOfType<RandomPinSpawner>();
     }
 
     void Update()
@@ -38,6 +44,16 @@ public class DaggerThrower : MonoBehaviour
     private void ThrowDagger()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // 설치 영역이 지정돼 있으면 그 범위 밖 클릭은 무시 (충전도 소비하지 않음)
+        if (placementArea != null && placementArea.HasSpawnArea)
+        {
+            Bounds b = placementArea.AreaBounds;
+            if (mousePos.x < b.min.x || mousePos.x > b.max.x ||
+                mousePos.y < b.min.y || mousePos.y > b.max.y)
+                return;
+        }
+
         GameObject dagger = _manager.SpawnDagger(mousePos);
 
         if (dagger != null)

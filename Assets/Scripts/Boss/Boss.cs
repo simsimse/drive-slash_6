@@ -85,6 +85,10 @@ public class Boss : MonoBehaviour
         if (finalDestroyDelay > 0f)
             yield return new WaitForSeconds(finalDestroyDelay);
 
+        // 보스 처치 → 승리 UI 표시
+        if (VictoryUI.Instance != null)
+            VictoryUI.Instance.Show();
+
         Destroy(gameObject);
     }
 }

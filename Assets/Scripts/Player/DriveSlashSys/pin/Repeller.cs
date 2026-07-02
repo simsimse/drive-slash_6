@@ -34,11 +34,29 @@ public class Repeller : MonoBehaviour
     [Tooltip("공격을 튕겨냈을 때 화면이 멈추는 시간(초, 실시간)")]
     public float freezeDuration = 0.15f;
 
+    [Header("사운드")]
+    public AudioClip parrySound;
+    public float     parrySoundVolume = 1f;
+
     [Header("디버그")]
     [Tooltip("패링 상태 전환을 콘솔에 로그로 출력")]
     public bool debugLog = true;
     /// <summary>현재 패링 윈도우가 활성화되어 있는지. 외부 공격 스크립트가 참조.</summary>
     public bool IsParrying { get; private set; } = false;
+
+    // ── 쿨타임 읽기 전용 프로퍼티 (UI 표시용) ──────────────────
+    /// <summary>지금 패링을 쓸 수 있는지 (쿨타임이 끝났는지).</summary>
+    public bool  IsReady            => _cooldownTimer <= 0f;
+    /// <summary>쿨타임이 진행 중인지.</summary>
+    public bool  IsOnCooldown       => _cooldownTimer > 0f;
+    /// <summary>쿨타임 남은 시간(초). 준비됐으면 0.</summary>
+    public float CooldownRemaining  => Mathf.Max(0f, _cooldownTimer);
+    /// <summary>쿨타임 총 길이(초).</summary>
+    public float CooldownDuration   => cooldown;
+    /// <summary>쿨타임 진행도 (0=방금 사용, 1=사용 가능). UI fillAmount용.</summary>
+    public float CooldownProgress   => (cooldown > 0f)
+        ? 1f - (CooldownRemaining / cooldown)
+        : 1f;
 
     private Rigidbody2D _rb;
     private Dash        _dash;
@@ -97,6 +115,9 @@ public class Repeller : MonoBehaviour
         _cooldownTimer = cooldown;
 
         if (debugLog) Debug.Log($"[Parry] 발동! 윈도우 {parryDuration}s, 쿨타임 {cooldown}s");
+
+        if (parrySound != null)
+            AudioSource.PlayClipAtPoint(parrySound, transform.position, parrySoundVolume);
 
         FireRepel();
     }

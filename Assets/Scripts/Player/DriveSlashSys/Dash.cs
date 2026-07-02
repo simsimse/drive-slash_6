@@ -37,6 +37,10 @@ public class Dash : MonoBehaviour
     [Header("보라핀 무적 시각 효과")]
     [Range(0f, 1f)] public float invincibleAlpha = 0.4f;
 
+    [Header("사운드")]
+    public AudioClip dashSound;
+    public float     dashSoundVolume = 1f;
+
     public bool IsDashing    { get; private set; } = false;
     /// <summary>보라 핀 효과: 슬래시 중 무적 여부. 플레이어 피격 판정 스크립트에서 참조.</summary>
     public bool IsInvincible { get; private set; } = false;
@@ -203,6 +207,9 @@ public class Dash : MonoBehaviour
         _rb.gravityScale = 0f;
 
         IsDashing = true;
+
+        if (dashSound != null)
+            AudioSource.PlayClipAtPoint(dashSound, transform.position, dashSoundVolume);
 
         if (IsInvincible) ApplyAlpha(invincibleAlpha);
     }

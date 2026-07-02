@@ -156,6 +156,13 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
+        // ESC로 튜토리얼을 건너뛰고 즉시 다음 씬으로
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SkipToNextScene();
+            return;
+        }
+
         if (_advancing || _index >= _steps.Count) return;
 
         Step step = _steps[_index];
@@ -191,6 +198,13 @@ public class TutorialManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(nextSceneDelay);
+        SceneManager.LoadScene(nextSceneName);
+    }
+
+    /// <summary>ESC 입력 시 튜토리얼을 건너뛰고 즉시 다음 씬으로 전환합니다.</summary>
+    private void SkipToNextScene()
+    {
+        if (string.IsNullOrEmpty(nextSceneName)) return;
         SceneManager.LoadScene(nextSceneName);
     }
 

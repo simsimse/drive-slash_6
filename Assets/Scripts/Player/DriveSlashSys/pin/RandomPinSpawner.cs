@@ -25,6 +25,13 @@ public class RandomPinSpawner : MonoBehaviour
     public int   maxTotalPins  = 5;
 
     [Header("스폰 범위")]
+    [Tooltip("스폰 영역을 정의하는 오브젝트. 하이어라키에서 빈 오브젝트의 위치와 Scale(X=가로, Y=세로)로 영역을 맞추고 여기에 할당하세요.")]
+    public Transform spawnArea;
+
+    [Tooltip("영역을 안쪽으로 줄이는 여백(가로, 세로). 값이 클수록 스폰/설치 범위가 작아집니다.")]
+    public Vector2 areaPadding = new Vector2(0f, 3f);
+
+    [Tooltip("spawnArea가 비어있을 때 사용하는 fallback 범위")]
     public float minX = -10f;
     public float maxX =  10f;
     public float minY =  -5f;
@@ -68,9 +75,65 @@ public class RandomPinSpawner : MonoBehaviour
             return;
         }
 
-        Vector2    pos = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+        Vector2    pos = GetRandomPosition();
         GameObject pin = Instantiate(prefab, pos, Quaternion.identity);
         _randomPins.Add(pin);
+    }
+
+    private Vector2 GetRandomPosition()
+    {
+        Bounds b = SpawnBounds;
+        return new Vector2(
+            Random.Range(b.min.x, b.max.x),
+            Random.Range(b.min.y, b.max.y));
+    }
+
+    /// <summary>스폰 영역 오브젝트가 할당돼 있는지.</summary>
+    public bool HasSpawnArea => spawnArea != null;
+
+    /// <summary>
+    /// 패딩이 적용되지 않은 원본 영역 Bounds. (마우스 설치 범위용 — 오브젝트 크기 그대로)
+    /// </summary>
+    public Bounds AreaBounds => spawnArea != null
+        ? GetAreaBounds(spawnArea)
+        : new Bounds(
+            new Vector3((minX + maxX) * 0.5f, (minY + maxY) * 0.5f, 0f),
+            new Vector3(maxX - minX, maxY - minY, 0f));
+
+    /// <summary>
+    /// 랜덤 스폰용 Bounds. AreaBounds에서 areaPadding만큼 안쪽으로 줄어든 범위입니다.
+    /// </summary>
+    public Bounds SpawnBounds
+    {
+        get
+        {
+            Bounds b = AreaBounds;
+
+            // 여백만큼 양쪽에서 줄임 (음수가 되지 않게 clamp)
+            Vector3 size = b.size;
+            size.x = Mathf.Max(0f, size.x - areaPadding.x * 2f);
+            size.y = Mathf.Max(0f, size.y - areaPadding.y * 2f);
+            b.size = size;
+            return b;
+        }
+    }
+
+    // 스폰 영역 계산: Renderer가 있으면 보이는 크기, 없으면 lossyScale 기준
+    private static Bounds GetAreaBounds(Transform area)
+    {
+        var renderer = area.GetComponent<Renderer>();
+        if (renderer != null)
+            return renderer.bounds;
+
+        return new Bounds(area.position, area.lossyScale);
+    }
+
+    // 씬 뷰에서 실제 스폰/설치 범위를 시각적으로 확인 (오프셋 반영)
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Bounds b = SpawnBounds;
+        Gizmos.DrawWireCube(b.center, b.size);
     }
 
     private GameObject PickRandomPrefab()
